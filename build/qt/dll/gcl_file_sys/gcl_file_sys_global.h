@@ -1,0 +1,12 @@
+#ifndef GCL_FILE_SYS_GLOBAL_H
+#define GCL_FILE_SYS_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(GCL_FILE_SYS_LIBRARY)
+#  define GCL_FILE_SYSSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define GCL_FILE_SYSSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // GCL_FILE_SYS_GLOBAL_H

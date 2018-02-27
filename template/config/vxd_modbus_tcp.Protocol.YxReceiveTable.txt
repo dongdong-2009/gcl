@@ -1,0 +1,3 @@
+0,MeasureId=0x01000001,WorkerCode=,Bianbi=0.01,WorkerName=ÎÂ¶È,Address=1,StationId=1,StationName=,Port=0
+1,MeasureId=0x01000002,WorkerCode=,Bianbi=0.01,WorkerName=Êª¶È,Address=2,StationId=1,StationName=,Port=0
+

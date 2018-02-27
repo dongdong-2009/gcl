@@ -1,0 +1,13 @@
+
+#ifndef GRAPHICS_GLOBAL_H
+#define GRAPHICS_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(GCL_GRAPHICS_LIBRARY)
+#  define GCLGRAPHICSSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define GCLGRAPHICSSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // GRAPHICS_GLOBAL_H

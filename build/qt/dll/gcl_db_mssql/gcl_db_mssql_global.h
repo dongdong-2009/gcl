@@ -1,0 +1,12 @@
+#ifndef GCL_DB_MSSQL_GLOBAL_H
+#define GCL_DB_MSSQL_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(GCL_DB_MSSQL_LIBRARY)
+#  define GCL_DB_MSSQLSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define GCL_DB_MSSQLSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // GCL_DB_MSSQL_GLOBAL_H

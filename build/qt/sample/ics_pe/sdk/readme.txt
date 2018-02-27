@@ -1,0 +1,1 @@
+PE与ICS通讯的头文件：gcl_common_sdk.h

@@ -1,0 +1,26 @@
+sdk server test commands :
+
+
+system exit : Application::exit
+
+
+terminal report all\terminalName : report terminal information
+
+
+send file fileName : send file from directory [app_data/temp/fileName] to every client
+
+send yx : send a test yx to every client
+
+send yc : send a test yc to every client
+
+send message.file fileName : send message command from directory [app_data/temp/fileName] to every client
+
+
+stop interinfo.packet : stop (CMD)command line packet output
+
+start interinfo.packet : start (CMD)command line packet output
+
+
+start timer.message : stop timer to send message
+
+start timer.message fileName\messageContent : start timer to send message, if [app_data/temp/fileName] exist then send message from file

@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E62795A4-28B1-4ED0-8A64-BC637A13F6E5}</ProjectGuid>
+    <RootNamespace>gcl_sdk_main</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\vs10_project_path.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\vs10_project_path.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>ccxx.lib;gcl_common.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxapplication.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxbitmap.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxbuffer.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxchannel.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxchannel_serial.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxchannel_tcpclient.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxchannel_tcpserver.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxchannel_udp.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxcontainer.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxcontext.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxcrc.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxdescribe.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxfactory.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxfile.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxglobal.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxinterinfo.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxlog.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxmain.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxmap.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxmath.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxpacket.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxprocess.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxprofile.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxprofile_loo.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxprofile_skv.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxprofile_skv_ini.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxprofile_skv_txt.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxsafebuffer.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxsafequeue.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxsafethread.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxsharemem.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxsingleton.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxsocket.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxstring.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxsystem.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxtemp.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxthread.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxtime.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxtimer.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxvalue.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\cxxml.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\tinyxml.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\tinyxmlerror.cpp" />
+    <ClCompile Include="..\..\..\ccxx\ccxx\tinyxmlparser.cpp" />
+    <ClCompile Include="..\..\src\common\address_worker_base.cpp" />
+    <ClCompile Include="..\..\src\common\cases_base.cpp" />
+    <ClCompile Include="..\..\src\common\custom_terminal.cpp" />
+    <ClCompile Include="..\..\src\common\cycle_base.cpp" />
+    <ClCompile Include="..\..\src\common\measure_base.cpp" />
+    <ClCompile Include="..\..\src\common\monsb_control.cpp" />
+    <ClCompile Include="..\..\src\common\monsb_measure.cpp" />
+    <ClCompile Include="..\..\src\common\protocol_base.cpp" />
+    <ClCompile Include="..\..\src\common\protocol_common.cpp" />
+    <ClCompile Include="..\..\src\common\protocol_config.cpp" />
+    <ClCompile Include="..\..\src\common\straw_measure.cpp" />
+    <ClCompile Include="..\..\src\common\task_base.cpp" />
+    <ClCompile Include="..\..\src\common\terminal_base.cpp" />
+    <ClCompile Include="..\..\src\common\terminal_exe.cpp" />
+    <ClCompile Include="..\..\src\common\terminal_loader.cpp" />
+    <ClCompile Include="..\..\src\common\terminal_manager.cpp" />
+    <ClCompile Include="..\..\src\common\worker_base.cpp" />
+    <ClCompile Include="..\..\src\common\ycadd_address_worker.cpp" />
+    <ClCompile Include="..\..\src\common\ycadd_control.cpp" />
+    <ClCompile Include="..\..\src\common\ycadd_measure.cpp" />
+    <ClCompile Include="..\..\src\gccommon\gcchannel.cpp" />
+    <ClCompile Include="..\..\src\gccommon\gccode.cpp" />
+    <ClCompile Include="..\..\src\gccommon\gccommon_thread.cpp" />
+    <ClCompile Include="..\..\src\gccommon\gcmsgqueue.cpp" />
+    <ClCompile Include="..\..\src\gccommon\gcsingleton.cpp" />
+    <ClCompile Include="..\..\src\gccommon\igccommon.cpp" />
+    <ClCompile Include="..\..\src\protocol\psm_protocol.cpp" />
+    <ClCompile Include="..\..\src\vxd\ygct_std\sdk.cpp" />
+    <ClCompile Include="..\..\src\vxd\ygct_std\sdk_client.cpp" />
+    <ClCompile Include="..\..\src\vxd\ygct_std\sdk_client_main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\ccxx\ccxx\ccxx.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxapplication.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxbitmap.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxbuffer.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxchannel.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxchannel_serial.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxchannel_tcpclient.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxchannel_tcpserver.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxchannel_udp.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxcontainer.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxcontext.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxcrc.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxdescribe.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxfactory.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxfile.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxglobal.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxinterinfo.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxlog.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxmacro.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxmain.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxmap.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxmath.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxpacket.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxprocess.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxprofile.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxprofile_loo.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxprofile_skv.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxprofile_skv_ini.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxprofile_skv_txt.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxsafebuffer.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxsafequeue.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxsafethread.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxsharemem.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxsingleton.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxsocket.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxstring.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxsystem.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxtemp.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxthread.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxtime.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxtimer.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxvalue.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\cxxml.h" />
+    <ClInclude Include="..\..\..\ccxx\ccxx\tinyxml.h" />
+    <ClInclude Include="..\..\src\common\address_worker_base.h" />
+    <ClInclude Include="..\..\src\common\cases_base.h" />
+    <ClInclude Include="..\..\src\common\custom_terminal.h" />
+    <ClInclude Include="..\..\src\common\cycle_base.h" />
+    <ClInclude Include="..\..\src\common\measure_address_worker.h" />
+    <ClInclude Include="..\..\src\common\measure_base.h" />
+    <ClInclude Include="..\..\src\common\measure_control.h" />
+    <ClInclude Include="..\..\src\common\measure_manager_template.h" />
+    <ClInclude Include="..\..\src\common\measure_strings.h" />
+    <ClInclude Include="..\..\src\common\measure_template.h" />
+    <ClInclude Include="..\..\src\common\monsb_address_worker.h" />
+    <ClInclude Include="..\..\src\common\monsb_control.h" />
+    <ClInclude Include="..\..\src\common\monsb_measure.h" />
+    <ClInclude Include="..\..\src\common\protocol_base.h" />
+    <ClInclude Include="..\..\src\common\protocol_common.h" />
+    <ClInclude Include="..\..\src\common\protocol_config.h" />
+    <ClInclude Include="..\..\src\common\protocol_global.h" />
+    <ClInclude Include="..\..\src\common\protocol_strings.h" />
+    <ClInclude Include="..\..\src\common\send_control_cases.h" />
+    <ClInclude Include="..\..\src\common\send_control_cases_template.h" />
+    <ClInclude Include="..\..\src\common\send_control_cycle_template.h" />
+    <ClInclude Include="..\..\src\common\send_mcontrol_cases.h" />
+    <ClInclude Include="..\..\src\common\send_mcontrol_cycle.h" />
+    <ClInclude Include="..\..\src\common\send_measure_cases_template.h" />
+    <ClInclude Include="..\..\src\common\send_measure_cycle_template.h" />
+    <ClInclude Include="..\..\src\common\send_monsb_cases.h" />
+    <ClInclude Include="..\..\src\common\send_monsb_cycle.h" />
+    <ClInclude Include="..\..\src\common\send_ycadd_cases.h" />
+    <ClInclude Include="..\..\src\common\send_ycadd_cycle.h" />
+    <ClInclude Include="..\..\src\common\send_ycontrol_cases.h" />
+    <ClInclude Include="..\..\src\common\straw_address_worker.h" />
+    <ClInclude Include="..\..\src\common\straw_measure.h" />
+    <ClInclude Include="..\..\src\common\task_base.h" />
+    <ClInclude Include="..\..\src\common\task_strings.h" />
+    <ClInclude Include="..\..\src\common\terminal_base.h" />
+    <ClInclude Include="..\..\src\common\terminal_exe.h" />
+    <ClInclude Include="..\..\src\common\terminal_factory_manager.h" />
+    <ClInclude Include="..\..\src\common\terminal_loader.h" />
+    <ClInclude Include="..\..\src\common\terminal_manager.h" />
+    <ClInclude Include="..\..\src\common\terminal_strings.h" />
+    <ClInclude Include="..\..\src\common\worker_base.h" />
+    <ClInclude Include="..\..\src\common\worker_strings.h" />
+    <ClInclude Include="..\..\src\common\ycadd_address_worker.h" />
+    <ClInclude Include="..\..\src\common\ycadd_control.h" />
+    <ClInclude Include="..\..\src\common\ycadd_measure.h" />
+    <ClInclude Include="..\..\src\gccommon\gcchannel.h" />
+    <ClInclude Include="..\..\src\gccommon\gccode.h" />
+    <ClInclude Include="..\..\src\gccommon\gccommon.h" />
+    <ClInclude Include="..\..\src\gccommon\gccommon_thread.h" />
+    <ClInclude Include="..\..\src\gccommon\gcl.h" />
+    <ClInclude Include="..\..\src\gccommon\gclconst.h" />
+    <ClInclude Include="..\..\src\gccommon\gclmacro.h" />
+    <ClInclude Include="..\..\src\gccommon\gclprestl.h" />
+    <ClInclude Include="..\..\src\gccommon\gcmsgqueue.h" />
+    <ClInclude Include="..\..\src\gccommon\gcsingleton.h" />
+    <ClInclude Include="..\..\src\gccommon\igccommon.h" />
+    <ClInclude Include="..\..\src\protocol\psm_protocol.h" />
+    <ClInclude Include="..\..\src\vxd\ygct_std\sdk.h" />
+    <ClInclude Include="..\..\src\vxd\ygct_std\sdk_client.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
