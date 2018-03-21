@@ -7,6 +7,7 @@ SUBDIRS       = \
     gcl_dbs \
     gcl_calc \
     gcl_fastcgi \
+    gcl_rtdbs \
     gcl_dispatch \
     gcl_rttrigger \
     script_svr  \

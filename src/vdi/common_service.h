@@ -34,6 +34,7 @@ public:
     static void setLiveInfo();
     static void task60s(int interval); //分钟任务
     static void taskLive(int interval);  //保活任务
+
 };
 
 #endif // COMMON_SERVICE_H

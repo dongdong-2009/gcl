@@ -5,7 +5,9 @@
 #include <sqlext.h>
 #include <script/gcl_lua_global.h>
 #include <script/gcl_lua_shm.h>
+
 using namespace std;
+
 //静态初始化
 RtdbService * fn_oDbsRealtimedata()
 {
@@ -17,7 +19,6 @@ RtdbService * fn_oDbsRealtimedata()
     static RtdbService m;
     return &m;
 }
-
 
 static RtdbService * f_oDbsRealtimedata = fn_oDbsRealtimedata();
 
