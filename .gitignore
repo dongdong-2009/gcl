@@ -37,3 +37,5 @@
 /build/qt/*.user
 /build/deploy/bin_*
 /build/deploy/log
+/build/deploy/.svn
+/build/deploy/data

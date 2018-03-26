@@ -2,7 +2,7 @@
 #define RTDB_SERVICE_H
 
 
-#include <ccxx/ccxx.h>
+#include "rtdb_logfile.h"
 #include <psm_struct.h>
 #include <psm/general_access.h>
 
@@ -43,8 +43,6 @@ public:
 
 private:
     static void doStart(int, int, const void *, int, void *, void *);
-
-    static void initDb();
 
 };
 
