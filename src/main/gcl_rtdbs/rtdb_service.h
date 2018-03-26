@@ -9,8 +9,6 @@
 class RtdbService
 {
 public:
-    static bool openDatabase();
-
     static void start();
 
     static void stop();
@@ -28,10 +26,6 @@ public:
     //收到文件的处理
     static int dealFileWrite( const PsmExplainer * oPsm, const CxFileSystem::PathInfo & pathInfo, const std::vector<std::string> & fileData, const PsmAttach * oAttach );
 
-    //数据变化处理
-    static int dealChangeData(std::vector<std::vector<std::string> > &rows);
-
-
     static inline CxInterinfoOutStream outGdsPrompt() {
         CxInterinfoOutStream r; r.noend(); r.type(CxInterinfo::Type_Script); r << CxGlobal::promptString << " Gds : "; return r;
     }
@@ -46,6 +40,11 @@ public:
  #define CX_NO_outScriptDebug_MACRO while (false) outScriptDebug
  #define outScriptDebug CX_NO_outScriptDebug_MACRO
  #endif
+
+private:
+    static void doStart(int, int, const void *, int, void *, void *);
+
+    static void initDb();
 
 };
 

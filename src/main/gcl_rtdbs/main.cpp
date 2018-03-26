@@ -3,7 +3,6 @@
 #include <ccxx/cxapplication.h>
 #include <ccxx/cxtimer.h>
 #include <vdi/measure_sharememory_all.h>
-#include <vdi/protocol_global.h>
 #include "rtdb_service.h"
 #include <vdi/common_service.h>
 #include <script/gcl_script_vxd.h>
@@ -17,11 +16,9 @@ int main(int argc, const char*argv[])
 
     CommonService::init();
 
-
-//    MeasureShareMemoryAll::setAfterLoadCallback(RtdbService::measureShareMemoryAfterLoad);
-//    MeasureShareMemoryAll::setBeforeCloseCallback(RtdbService::measureShareMemoryBeforeClose);
-//    MeasureShareMemoryAll::open();
-
+    MeasureShareMemoryAll::setAfterLoadCallback(RtdbService::measureShareMemoryAfterLoad);
+    MeasureShareMemoryAll::setBeforeCloseCallback(RtdbService::measureShareMemoryBeforeClose);
+    MeasureShareMemoryAll::open();
 
     //脚本执行
     GclScriptVxd::init();
@@ -29,10 +26,12 @@ int main(int argc, const char*argv[])
     //开始数据库检查
     CxTimerManager::startTimer(CxDatabaseManager::connectCheck,60000);
 
+    RtdbService::start();
+
     int iResult = CxApplication::exec();
 
-//    MeasureShareMemoryAll::close();
-    //
+    MeasureShareMemoryAll::close();
+
     GclScriptVxd::uninit();
 
     //停止数据库检查
