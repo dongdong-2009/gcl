@@ -20,9 +20,6 @@ int main(int argc, const char*argv[])
     MeasureShareMemoryAll::setBeforeCloseCallback(RtdbService::measureShareMemoryBeforeClose);
     MeasureShareMemoryAll::open();
 
-    //脚本执行
-    GclScriptVxd::init();
-
     //开始数据库检查
     CxTimerManager::startTimer(CxDatabaseManager::connectCheck,60000);
 
@@ -31,8 +28,6 @@ int main(int argc, const char*argv[])
     int iResult = CxApplication::exec();
 
     MeasureShareMemoryAll::close();
-
-    GclScriptVxd::uninit();
 
     //停止数据库检查
     CxTimerManager::stopTimer(CxDatabaseManager::connectCheck);

@@ -50,7 +50,7 @@ void RtdbService::timerTimeout(int iInterval)
         case 0:
             break;
         case 1:
-            if (MonsbShareMemory::memoryManager()->isValid())
+            if (!MonsbShareMemory::memoryManager()->isValid())
             {
                 size_t iMonsbChangedIndex = MonsbShareMemory::memoryManager()->checkChangeds(f_monsbChangedIndex, RtdbLogFile::insertChangeds_monsb);
                 if (iMonsbChangedIndex != f_monsbChangedIndex)
@@ -72,7 +72,7 @@ void RtdbService::timerTimeout(int iInterval)
             }
             break;
         case 3:
-            if (StrawShareMemory::memoryManager()->isValid())
+            if (!StrawShareMemory::memoryManager()->isValid())
             {
                 size_t iStrawChangedIndex = StrawShareMemory::memoryManager()->checkChangeds(f_strawChangedIndex, RtdbLogFile::insertChangeds_straw);
                 if (iStrawChangedIndex != f_strawChangedIndex)

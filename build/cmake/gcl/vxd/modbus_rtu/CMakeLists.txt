@@ -10,5 +10,5 @@ set(gsl_modbus_rtu_files
         modbus/modbus_rtu.cpp
         )
 
-mc_add_vxd_exe(gcl_modbus_rtu "${gsl_modbus_rtu_files}")
+mc_add_vxd_exe(vxd_modbus_rtu "${gsl_modbus_rtu_files}")
 

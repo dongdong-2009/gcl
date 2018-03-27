@@ -22,18 +22,18 @@ set(gsl_gcl_bus_files
 
 mc_merge_file_path(${gs_gcl_src_path} "${gsl_gcl_bus_files}" gsl_gcl_bus_filepaths)
 
-add_executable(gcl_bus
+add_executable(gcl_svr_bus
         ${gsl_gcl_bus_filepaths}
         ${gsl_gcl_shm_filepaths}
         ${gsl_gcl_vdi_daemon_heartbeat_filepaths}
         )
 
-add_dependencies(gcl_bus
+add_dependencies(gcl_svr_bus
         libccxx
         )
 
-target_link_libraries(gcl_bus
+target_link_libraries(gcl_svr_bus
         libccxx
         )
 
-set_target_properties(gcl_bus PROPERTIES FOLDER gcl/main)
+set_target_properties(gcl_svr_bus PROPERTIES FOLDER gcl/main)

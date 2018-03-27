@@ -12,5 +12,5 @@ set(gsl_modbus_tcp_files
         modbus/modbus_tcp.cpp
         )
 
-mc_add_vxd_exe(gcl_modbus_tcp "${gsl_modbus_tcp_files}")
+mc_add_vxd_exe(vxd_modbus_tcp "${gsl_modbus_tcp_files}")
 

@@ -17,7 +17,7 @@ set(gsl_fastcgi_files
 
 mc_merge_file_path(${gs_gcl_src_path} "${gsl_fastcgi_files}" gsl_fastcgi_filepaths)
 
-add_executable(fastcgi
+add_executable(gcl_svr_fastcgi
         ${gsl_fastcgi_filepaths}
         ${gsl_regexp_source_filepaths}
         ${gsl_3rd_cgicc_filepaths}
@@ -27,16 +27,16 @@ add_executable(fastcgi
         ${gsl_gcl_vdi_daemon_heartbeat_filepaths}
         )
 
-add_dependencies(fastcgi
+add_dependencies(gcl_svr_fastcgi
         libccxx
         libccxx_database_odbc
         libccxx_database_sqlite
         )
 
-target_link_libraries(fastcgi
+target_link_libraries(gcl_svr_fastcgi
         libccxx
         libccxx_database_odbc
         libccxx_database_sqlite
         )
 
-set_target_properties(fastcgi PROPERTIES FOLDER gcl/main)
+set_target_properties(gcl_svr_fastcgi PROPERTIES FOLDER gcl/main)
