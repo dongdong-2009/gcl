@@ -22,13 +22,12 @@ static FILE* f_oMonsbChangedIndexFile = NULL;
 static FILE* f_oYcaddChangedIndexFile = NULL;
 static FILE* f_oStrawChangedIndexFile = NULL;
 
-static map<int, MeasureChangedFile> f_measureChangedFiles;
 
 size_t
 RtdbLogFile::loadMeasureChangedIndex(const std::string& sFileName)
 {
 //    sValue.empty() ? GM_UINT_MAX : CxString::toInt32(sValue);
-    string sFilePath = CxFileSystem::mergeFilePath(f_sLogPath, f_sMonsbChangedIndexFileName);
+    string sFilePath = CxFileSystem::mergeFilePath(f_sLogPath, sFileName);
     vector<string> sLines;
     CxFile::loadLast(sFilePath, 100, sLines, "\n");
     for (int i = sLines.size(); i > 0; --i)
@@ -112,14 +111,6 @@ RtdbLogFile::start()
 int
 RtdbLogFile::stop()
 {
-    for (typename std::map<int, MeasureChangedFile>::const_iterator it = f_measureChangedFiles.begin();
-         it != f_measureChangedFiles.end(); ++it)
-    {
-        const MeasureChangedFile& measureChangedFile = it->second;
-        FILE* oFile = measureChangedFile.file;
-        fclose(oFile);
-    }
-    f_measureChangedFiles.clear();
     return TRUE;
 }
 
@@ -142,64 +133,16 @@ RtdbLogFile::getMeasureValue(const StrawValue& value)
     return std::string(value.value, datalen);
 }
 
-MeasureChangedFile*
-RtdbLogFile::getMeaureChangedFile(int iMeasureId)
+std::string
+RtdbLogFile::getMeasureLogPath()
 {
-    map<int, MeasureChangedFile>::iterator it = f_measureChangedFiles.find(iMeasureId);
-    if (it != f_measureChangedFiles.end())
-    {
-        MeasureChangedFile& measureChangedFile = it->second;
-        return & measureChangedFile;
-    }
-    else
-    {
-        string sFileName = CxString::toHexstring(iMeasureId) + ".txt";
-        string sFilePath = CxFileSystem::mergeFilePath(f_sLogPath, sFileName);
-        FILE* oFile = fopen(sFilePath.data(), "ab+");
-        if (oFile != NULL)
-        {
-            MeasureChangedFile measureChangedFile;
-            measureChangedFile.file = oFile;
-            measureChangedFile.newCount = 0;
-            f_measureChangedFiles[iMeasureId] = measureChangedFile;
-            it = f_measureChangedFiles.find(iMeasureId);
-            if (it != f_measureChangedFiles.end())
-            {
-                MeasureChangedFile& measureChangedFile = it->second;
-                return & measureChangedFile;
-            }
-            else
-            {
-                fclose(oFile);
-            }
-        }
-        else
-        {
-            cxLogDebug() << "fopen [ " << sFilePath << " ] error: " << CxFileSystem::getFileLastError();
-        }
-    }
-    return NULL;
+    return f_sLogPath;
 }
 
 int
 RtdbLogFile::checkMeaureChangedFiles()
 {
     static int iTime = 0;
-    if (iTime % 2 == 0)
-    {
-        for (typename std::map<int, MeasureChangedFile>::iterator it = f_measureChangedFiles.begin();
-             it != f_measureChangedFiles.end(); ++it)
-        {
-            MeasureChangedFile& measureChangedFile = it->second;
-            if (measureChangedFile.newCount > 0)
-            {
-                FILE* oFile = measureChangedFile.file;
-                fflush(oFile);
-                measureChangedFile.newCount = 0;
-            }
-        }
-
-    }
     // change day
     static msepoch_t dtDayEnd = CxTime::currentDayEnd();
     if (iTime % 30 == 0)
@@ -210,14 +153,6 @@ RtdbLogFile::checkMeaureChangedFiles()
             string sFilePath;
             f_sLogPath = CxFileSystem::mergeFilePath(CxAppEnv::dataPath(), sDirName);
             CxFileSystem::createDirMultiLevel(f_sLogPath);
-            for (typename std::map<int, MeasureChangedFile>::const_iterator it = f_measureChangedFiles.begin();
-                 it != f_measureChangedFiles.end(); ++it)
-            {
-                const MeasureChangedFile& measureChangedFile = it->second;
-                FILE* oFile = measureChangedFile.file;
-                fclose(oFile);
-            }
-            f_measureChangedFiles.clear();
             dtDayEnd = CxTime::currentDayEnd();
         }
     }

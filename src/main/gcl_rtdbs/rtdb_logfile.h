@@ -30,8 +30,8 @@ public:
     static std::string
     getMeasureValue(const StrawValue& value);
 
-    static MeasureChangedFile*
-    getMeaureChangedFile(int iMeasureId);
+    static std::string
+    getMeasureLogPath();
 
     static int
     checkMeaureChangedFiles();
@@ -72,33 +72,24 @@ public:
         size_t iWrote;
         while (oChangedData < oChangedEnd)
         {
-            MeasureChangedFile* oMeasureChangedFile = getMeaureChangedFile(oChangedData->measureId);
-            if (oMeasureChangedFile != NULL)
+            std::string sFileName = CxString::toHexstring(oChangedData->measureId) + ".txt";
+            std::string sFilePath = CxFileSystem::mergeFilePath(getMeasureLogPath(), sFileName);
+            FILE* oFile = fopen(sFilePath.data(), "ab+");
+            if (oFile)
             {
-                oFile = oMeasureChangedFile->file;
-                if (oFile)
+                sText = getMeasureChanngedText(oChangedData->measureId, oChangedData->value,
+                                               oChangedData->quality, oChangedData->changedTime,
+                                               oChangedData->changedSourceId, oChangedData->changedReasonId);
+                iWrote = fwrite(const_cast<char*>(sText.data()), 1, sText.size(), oFile);
+                if (iWrote <= 0)
                 {
-                    sText = getMeasureChanngedText(oChangedData->measureId, oChangedData->value,
-                                                   oChangedData->quality, oChangedData->changedTime,
-                                                   oChangedData->changedSourceId, oChangedData->changedReasonId);
-                    iWrote = fwrite(const_cast<char*>(sText.data()), 1, sText.size(), oFile);
-                    if (iWrote > 0)
-                    {
-                        oMeasureChangedFile->newCount = oMeasureChangedFile->newCount + 1;
-                    }
-                    else
-                    {
-                        cxLogDebug() << "insertChangeds_impl error - sText: " << sText;
-                    }
+                    cxLogDebug() << "insertChangeds_impl error - sText: " << sText;
                 }
-                else
-                {
-                    cxLogDebug() << "insertChangeds_impl error : inter error 1.";
-                }
+                fclose(oFile);
             }
             else
             {
-                cxLogDebug() << "insertChangeds_impl error : inter error 2.";
+                cxLogDebug() << "fopen [ " << sFilePath << " ] error: " << CxFileSystem::getFileLastError();
             }
             oChangedData++;
         }
