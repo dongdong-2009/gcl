@@ -476,9 +476,6 @@ const char * f_sYkBodyJson =
         "{\"url\":\"%s\",\"mid\":%d,\"t\":%lld,\"state\":%d}"
         ;
 
-const char * f_sRtlogBodyJson =
-    "{\"url\":\"%s\",\"mid\":%d\"state\":%d}"
-
 const char * cs_command_sql_select = "SELECT * FROM ICS.T_ICS_SYS_SQLTEXT_QUERY;";
 const char * cs_url = "url";
 const char * cs_sql = "sql";
@@ -917,8 +914,11 @@ string fn_rtlogGetString(int iMid, msepoch_t dtBeing, msepoch_t dtEnd, int iFile
     }
     else
     {
-        r = CxString::format(f_sRtlogBodyJson, "", iMid, 1);
-        r = RtdbLogFile::loadMeasureChanged(iMid, dtBeing, dtEnd);
+
+        string sBegin = CxString::format("{\"url\":\"%s\",\"mid\":%d,\"tbegin\":%lld,\"tend\":%lld,\"log\":\"", "", iMid, dtBeing, dtEnd);
+        string sBody = RtdbLogFile::loadMeasureChanged(iMid, dtBeing, dtEnd);
+        string sEnd = "\",\"state\":1}";
+        r = sBegin + sBody + sEnd;
     }
 
     return r;
@@ -931,20 +931,17 @@ string fn_rtlogGetArrayString(int iBeginMid, int iMidCount, msepoch_t dtBeing, m
     string r;
 
     int iEndMid = iBeginMid + iMidCount;
-    GM_INVALID_RETURE_(iEndMid <= oMemoryManager->getMaxId(), r);
-
     if (iFileType==ci_fileType_xml)
     {
         for (int i = iBeginMid; i < iEndMid; ++i)
         {
-            r += fn_measureDataToXmlString<int>(oMemoryManager, i);
         }
     }
     else
     {
         for (int i = iBeginMid; i < iEndMid; ++i)
         {
-            r += fn_measureDataToJsonString<int>(oMemoryManager, i);
+            r += fn_rtlogGetString(i, dtBeing, dtEnd, iFileType);
             if (i < iEndMid-1)
                 r.push_back(',');
         }
@@ -2005,6 +2002,7 @@ protected:
                             string sOut;
                             string sOutEnd = "]}";
                             //**structtype 为 rtdata_v101
+                            cxDebug() << sStructType << " begin " << CxTime::currentMsepochString();
                             if (sStructType.find("rtdata_v101") != string::npos)
                             {
                                 sOutBegin = CxString::format(sOutBegin.c_str(), "rtdata_v001");
@@ -2173,7 +2171,19 @@ protected:
                                             iMid = CxJson::findMemberToInt(vMeasure, cs_mid);
                                         }
                                         int iCount = CxJson::findMemberToInt(vMeasure, "count");
-                                        string rOut = fn_rtlogGetArrayString(iMid, iCount, ci_fileType_json);
+                                        msepoch_t dtBegin = CxTime::currentDayEnd() - GM_MSEPOCH_ONE_DAY + 2;
+                                        string sDtBegin = CxJson::findMemberToString(vMeasure, cs_tbegin);
+                                        if (sDtBegin.size()>0)
+                                        {
+                                            dtBegin = CxString::toInt64(sDtBegin);
+                                        }
+                                        msepoch_t dtEnd = CxTime::currentDayEnd();
+                                        string sDtEnd = CxJson::findMemberToString(vMeasure, cs_tend);
+                                        if (sDtEnd.size()>0)
+                                        {
+                                            dtEnd = CxString::toInt64(sDtEnd);
+                                        }
+                                        string rOut = fn_rtlogGetArrayString(iMid, iCount, dtBegin, dtEnd, ci_fileType_json);
                                         if (rOut.size()>0)
                                         {
                                             sOut += rOut;
@@ -2188,6 +2198,9 @@ protected:
                                 outJsonFinish(oFcgiRequest, "{\"error\":\"can not deal the structtype!\"}");
                                 continue;
                             }
+
+                            cxDebug() << sStructType << " ing " << CxTime::currentMsepochString();
+
                             IO << HTTPResponseHeader("HTTP/1.1", 200, "OK")
                                   .addHeader("Access-Control-Allow-Origin", "*")
                                   .addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization")
@@ -2195,6 +2208,8 @@ protected:
                             IO << sOutBegin;
                             IO << sOut;
                             IO << sOutEnd << endl;
+
+                            cxDebug() << sStructType << " end " << CxTime::currentMsepochString();
                         }
                         else
                         {
