@@ -9,12 +9,13 @@ static const string f_sStrawChangedIndexFileName = "straw_changed_index.txt";
 // iOldIndex, iNewIndex, 1, CxTime::currentMsepoch()
 static const string f_sMeasureChangedIndexText = "%d, %d, 1, %lld\n";
 
-//oChangedData->measureId, oChangedData->value,
-//oChangedData->quality, oChangedData->changedTime,
-//oChangedData->changedSourceId, oChangedData->changedReasonId
-static const string f_sMonsbChangedIndexText = "%d, %d, %d, %lld, %d, %d\n";
-static const string f_sYcaddChangedIndexText = "%d, %f, %d, %lld, %d, %d\n";
-static const string f_sStrawChangedIndexText = "%d, %s, %d, %lld, %d, %d\n";
+// oChangedData->changedTime,
+// oChangedData->value,
+// oChangedData->quality,
+// oChangedData->changedSourceId, oChangedData->changedReasonId
+static const string f_sMonsbChangedIndexText = "%lld,%d,%d,%d,%d;";
+static const string f_sYcaddChangedIndexText = "%lld,%f,%d,%d,%d;";
+static const string f_sStrawChangedIndexText = "%lld,%s,%d,%d,%d;";
 
 static string f_sLogPath = string();
 
@@ -91,11 +92,9 @@ RtdbLogFile::saveStrawChangedIndex(size_t iOldIndex, size_t iNewIndex)
 int
 RtdbLogFile::start()
 {
-    string sDirName = CxTime::currentDayString(0);
-    string sFilePath;
-    f_sLogPath = CxFileSystem::mergeFilePath(CxAppEnv::dataPath(), sDirName);
-    CxFileSystem::createDirMultiLevel(f_sLogPath);
+    init();
 
+    string sFilePath;
     sFilePath = CxFileSystem::mergeFilePath(f_sLogPath, f_sMonsbChangedIndexFileName);
     f_oMonsbChangedIndexFile = fopen(sFilePath.data(), "ab+");
 
@@ -160,42 +159,37 @@ RtdbLogFile::checkMeaureChangedFiles()
 }
 
 std::string
-RtdbLogFile::getMeasureChanngedText(int iMeasureId,
-                                    const int& value,
+RtdbLogFile::getMeasureChanngedText(const int& value,
                                     int iQuality,
                                     msepoch_t dtChangedTime,
                                     int iChangedSourceId,
                                     int iChangedReasonId)
 {
     return CxString::format(f_sMonsbChangedIndexText.c_str(),
-                            iMeasureId,
+                            dtChangedTime,
                             value,
                             iQuality,
-                            dtChangedTime,
                             iChangedSourceId,
                             iChangedReasonId);
 }
 
 std::string
-RtdbLogFile::getMeasureChanngedText(int iMeasureId,
-                                    const double& value,
+RtdbLogFile::getMeasureChanngedText(const double& value,
                                     int iQuality,
                                     msepoch_t dtChangedTime,
                                     int iChangedSourceId,
                                     int iChangedReasonId)
 {
     return CxString::format(f_sYcaddChangedIndexText.c_str(),
-                            iMeasureId,
+                            dtChangedTime,
                             value,
                             iQuality,
-                            dtChangedTime,
                             iChangedSourceId,
                             iChangedReasonId);
 }
 
 std::string
-RtdbLogFile::getMeasureChanngedText(int iMeasureId,
-                                    const StrawValue& value,
+RtdbLogFile::getMeasureChanngedText(const StrawValue& value,
                                     int iQuality,
                                     msepoch_t dtChangedTime,
                                     int iChangedSourceId,
@@ -204,10 +198,90 @@ RtdbLogFile::getMeasureChanngedText(int iMeasureId,
     int datalen = strlen(value.value) > ci_straw_length ? ci_straw_length : strlen(value.value);
     std::string sValue = std::string(value.value, datalen);
     return CxString::format(f_sStrawChangedIndexText.c_str(),
-                            iMeasureId,
+                            dtChangedTime,
                             sValue.c_str(),
                             iQuality,
-                            dtChangedTime,
                             iChangedSourceId,
                             iChangedReasonId);
+}
+
+std::string
+RtdbLogFile::logRtlogToJsonString2(int iMeasureId)
+{
+    std::string sFileName = CxString::toHexstring(iMeasureId) + ".txt";
+    std::string sFilePath = CxFileSystem::mergeFilePath(getMeasureLogPath(), sFileName);
+    vector<string> sLines;
+    CxFile::load(sFilePath, s)
+    FILE* oFile = fopen(sFilePath.data(), "ab+");
+
+
+    return std::string();
+}
+
+int
+RtdbLogFile::init()
+{
+    string sDirName = CxTime::currentDayString(0);
+    f_sLogPath = CxFileSystem::mergeFilePath(CxAppEnv::dataPath(), sDirName);
+    CxFileSystem::createDirMultiLevel(f_sLogPath);
+
+    return TRUE;
+}
+
+std::string
+RtdbLogFile::loadMeasureChanged(int iMeasureId, msepoch_t dtBegin, msepoch_t dtEnd)
+{
+    string r;
+    int iDayCount = (dtBegin - dtEnd + GM_MSEPOCH_ONE_DAY -1) / GM_MSEPOCH_ONE_DAY;
+    if (iDayCount > 7) return r;
+    for (int i = 0; i < iDayCount; ++i)
+    {
+        string sDirName = CxTime::toStringDay((dtBegin + i * GM_MSEPOCH_ONE_DAY) % 1000, 0);
+        string sLogPath = CxFileSystem::mergeFilePath(CxAppEnv::dataPath(), sDirName);
+        std::string sFileName = CxString::toHexstring(iMeasureId) + ".txt";
+        std::string sFilePath = CxFileSystem::mergeFilePath(sLogPath, sFileName);
+        if (i == 0 || i == iDayCount - 1)
+        {
+            vector<string> sLines;
+            CxFile::load(sFilePath, sLines, '\n');
+            size_t iLineBegin = 0;
+            for (size_t j = 0; j < sLines.size(); ++j)
+            {
+                const string& sLine = sLines.at(j);
+                string sDt(sLine.data(), sLine.find(','));
+                int64 r;
+                stringstream ss(sDt);
+                ss >> r;
+                if (r > dtBegin)
+                {
+                    iLineBegin = j;
+                    break;
+                }
+            }
+            size_t iLineEnd = sLines.size()-1;
+            for (size_t j = sLines.size()-1; j >= 0; --j)
+            {
+                const string& sLine = sLines.at(j);
+                string sDt(sLine.data(), sLine.find(','));
+                int64 r;
+                stringstream ss(sDt);
+                ss >> r;
+                if (r < dtEnd)
+                {
+                    iLineEnd = j;
+                    break;
+                }
+            }
+            for (size_t j = iLineBegin; j <= iLineEnd; ++j)
+            {
+                r += ( sLines.at(j) + "\n" );
+            }
+        }
+        else
+        {
+            r += CxFile::load(sFilePath);
+        }
+    }
+
+    return std::string();
 }

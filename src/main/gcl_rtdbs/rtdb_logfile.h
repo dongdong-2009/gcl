@@ -16,6 +16,9 @@ class RtdbLogFile
 {
 public:
     static int
+    init();
+
+    static int
     start();
 
     static int
@@ -37,24 +40,21 @@ public:
     checkMeaureChangedFiles();
 
     static std::string
-    getMeasureChanngedText(int iMeasureId,
-                           const int& value,
+    getMeasureChanngedText(const int& value,
                            int iQuality,
                            msepoch_t dtChangedTime,
                            int iChangedSourceId,
                            int iChangedReasonId);
 
     static std::string
-    getMeasureChanngedText(int iMeasureId,
-                           const double& value,
+    getMeasureChanngedText(const double& value,
                            int iQuality,
                            msepoch_t dtChangedTime,
                            int iChangedSourceId,
                            int iChangedReasonId);
 
     static std::string
-    getMeasureChanngedText(int iMeasureId,
-                           const StrawValue& value,
+    getMeasureChanngedText(const StrawValue& value,
                            int iQuality,
                            msepoch_t dtChangedTime,
                            int iChangedSourceId,
@@ -77,7 +77,7 @@ public:
             FILE* oFile = fopen(sFilePath.data(), "ab+");
             if (oFile)
             {
-                sText = getMeasureChanngedText(oChangedData->measureId, oChangedData->value,
+                sText = getMeasureChanngedText(oChangedData->value,
                                                oChangedData->quality, oChangedData->changedTime,
                                                oChangedData->changedSourceId, oChangedData->changedReasonId);
                 iWrote = fwrite(const_cast<char*>(sText.data()), 1, sText.size(), oFile);
@@ -139,6 +139,9 @@ public:
 
     static int
     saveStrawChangedIndex(size_t iOldIndex, size_t iNewIndex);
+
+    static std::string
+    loadMeasureChanged(int iMeasureId, msepoch_t dtBegin, msepoch_t dtEnd);
 
 };
 

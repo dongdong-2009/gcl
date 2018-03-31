@@ -16,7 +16,8 @@ set(gs_project_enable_qt 0)
 
 ###depend
 #CMAKE_CURRENT_SOURCE_DIR (current file path)
-set(gs_project_desploy_path ${CMAKE_CURRENT_SOURCE_DIR}/../deploy)
+set(gs_project_desploy_path "f:/gcl3deploy")
+#set(gs_project_desploy_path ${CMAKE_CURRENT_SOURCE_DIR}/../deploy)
 set(gs_gcl_path ${CMAKE_CURRENT_SOURCE_DIR}/../..)
 set(gs_project_3rd_path ${gs_gcl_path}/3rd)
 set(gs_ccxx_path  ${CMAKE_CURRENT_SOURCE_DIR}/../../../../ccpp/ccxx)

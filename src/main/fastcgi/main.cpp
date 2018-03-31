@@ -183,6 +183,95 @@ filetype = json
 }
 
 
+// GCL实时点的历史实时数据请求的 json格式：支持散列请求：rtlog_v101；数组请求是：rtlog_v102；返回时都统一用：rtlog_v001
+// url 是全局统一资源名（可以通用在容器对象或实体对象中）
+// mid 是实时库的实时点全局唯一id
+// url和mid可以只有一个，两个同时都有时以mid为准
+// http://10.31.0.15:8821/ics.cgi?fncode=req.rtdata_v101&filetype=json
+
+// 散列请求：rtlog_v101
+fncode = req.rtlog_v101
+filetype = json
+
+{
+  "session":"sbid=0001;xxx=adfadsf",
+  "structtype": "rtlog_v101",
+  "params":
+  [
+    {
+    "url": "/fp/zyj/fgj01/rfid",
+    "mid": 33556644,
+    "tbegin": 31343242341,
+    "tend": 23413241234
+    },
+    {
+    "url": "/fp/zyj/fgj01/ypmm",
+    "mid": 33556645,
+     "tbegin": 31343242341,
+    "tend": 23413241234
+    }
+  ]
+}
+
+
+ // 数组请求中是以url为索引时，如果url可以对应到mid就以mid为开始索引；如果url是容器时就返回容器对应数量内个数
+fncode = req.rtlog_v102
+filetype = json
+
+{
+  "session":"sbid=0001;xxx=adfadsf",
+  "structtype": "rtlog_v102",
+  "params":
+  [
+    {
+    "url": "/fp/zyj/fgj01/rfid",
+    "mid": 33556644,
+      "tbegin": 31343242341,
+    "tend": 23413241234,
+    "count": 100
+    },
+    {
+    "url": "/fp/zyj/fgj01/ypmm",
+    "mid": 33556645,
+       "tbegin": 31343242341,
+    "tend": 23413241234,
+    "count": 100
+    }
+  ]
+}
+
+
+// ics.json返回时都统一用：rtlog_v001
+// "v": 数值；数组形式
+// "q": 值的质量；数组形式
+// "t": 值的时间,unix时间戳（1970到目前的毫秒数，服务器的当地时间）；数组形式
+// "s": 实时数据信息来源的源ID,ChangedSourceId；数组形式
+// "u": 实时数据信息来源的源url,ChangedSourceId；数组形式
+// "r": ChangedReasonId；数组形式
+// 可选属性"state":状态码，无或0时表示成功，其它值看具体数据字典
+{
+  "session":"sbid=0001;xxx=adfadsf",
+  "structtype":"rtdata_v001",
+  "data":[
+    {
+    "url":"/fp/zyj/fgj01/rfid",
+    "mid":33556644,
+     "tbegin": 31343242341,
+    "tend": 23413241234,
+    "log": "",
+    "state":0
+    },
+    {
+    "url":"/fp/zyj/fgj01/ypmm",
+    "mid":33556645,
+     "tbegin": 31343242341,
+    "tend": 23413241234,
+    "log": "",
+    "state":0
+    }
+  ]
+}
+
 
 
 
@@ -337,6 +426,8 @@ filetype = json
 #include <ccxx/cxdatabase_odbc.h>
 #include <ccxx/cxstring.h>
 
+#include <main/gcl_rtdbs/rtdb_logfile.h>
+
 using namespace std;
 using namespace cgicc;
 using namespace rapidjson;
@@ -385,6 +476,9 @@ const char * f_sYkBodyJson =
         "{\"url\":\"%s\",\"mid\":%d,\"t\":%lld,\"state\":%d}"
         ;
 
+const char * f_sRtlogBodyJson =
+    "{\"url\":\"%s\",\"mid\":%d\"state\":%d}"
+
 const char * cs_command_sql_select = "SELECT * FROM ICS.T_ICS_SYS_SQLTEXT_QUERY;";
 const char * cs_url = "url";
 const char * cs_sql = "sql";
@@ -397,6 +491,8 @@ const char * cs_v = "v";
 const char * cs_q = "q";
 const char * cs_t = "t";
 const char * cs_state = "state";
+const char * cs_tbegin = "tbegin";
+const char * cs_tend = "tend";
 
 
 static std::map<std::string, int> f_urlMids;
@@ -672,6 +768,47 @@ string fn_measureChangedsToJsonString(const typename MeasureShareMemory<T>::Chan
 
 
 
+// # 获取实时数据返回（以数组形式），可以XML或JSON的方式
+// # iFileType =0：表示XML方式； =1：表示JSON方式
+string fn_measureGetString(int iMid, int iFileType=0)
+{
+    string r;
+
+    //*yx
+    //遥信处理 vqt整形方式
+    if (iMid>=0x01000000 && iMid<0x02000000)
+    {
+        if (iFileType==ci_fileType_xml)
+        {
+            r = fn_measureDataToXmlString<int>(MonsbShareMemory::memoryManager(), iMid);
+        }
+        else
+        {
+            r = fn_measureDataToJsonString<int>(MonsbShareMemory::memoryManager(), iMid);
+        }
+    }
+        //*yc
+        //遥测处理 vqt整形方式
+    else if (iMid>=0x02000000 && iMid<0x03000000)
+    {
+        if (iFileType==ci_fileType_xml)
+            r = fn_measureDataToXmlString<double>(YcaddShareMemory::memoryManager(), iMid);
+        else
+            r = fn_measureDataToJsonString<double>(YcaddShareMemory::memoryManager(), iMid);
+    }
+        //*yw
+        //遥文处理 vqt整形方式
+    else if (iMid>=0x03000000 && iMid<0x04000000)
+    {
+        if (iFileType==ci_fileType_xml)
+            r = fn_measureDataToXmlString<StrawValue>(StrawShareMemory::memoryManager(), iMid);
+        else
+            r = fn_measureDataToJsonString<StrawValue>(StrawShareMemory::memoryManager(), iMid);
+    }
+
+    return r;
+}
+
 //*获取实时数据返回（以数组形式），可以XML或JSON的方式
 //iFileType =0：表示XML方式； =1：表示JSON方式
 string fn_measureGetArrayString(int iBeginMid, int iMidCount, int iFileType=ci_fileType_xml)
@@ -766,48 +903,55 @@ string fn_measureGetArrayString(int iBeginMid, int iMidCount, int iFileType=ci_f
     return r;
 }
 
-//iFileType =0：表示XML方式； =1：表示JSON方式
-string fn_measureGetString(int iMid, int iFileType=0)
+
+
+
+// # 获取实时数据返回（以数组形式），可以XML或JSON的方式
+// # iFileType =0：表示XML方式； =1：表示JSON方式
+string fn_rtlogGetString(int iMid, msepoch_t dtBeing, msepoch_t dtEnd, int iFileType=0)
 {
     string r;
 
-    //*yx
-    //遥信处理 vqt整形方式
-    if (iMid>=0x01000000 && iMid<0x02000000)
+    if (iFileType==ci_fileType_xml)
     {
-        if (iFileType==ci_fileType_xml)
-        {
-            r = fn_measureDataToXmlString<int>(MonsbShareMemory::memoryManager(), iMid);
-        }
-        else
-        {
-            r = fn_measureDataToJsonString<int>(MonsbShareMemory::memoryManager(), iMid);
-        }
     }
-    //*yc
-    //遥测处理 vqt整形方式
-    else if (iMid>=0x02000000 && iMid<0x03000000)
+    else
     {
-        if (iFileType==ci_fileType_xml)
-            r = fn_measureDataToXmlString<double>(YcaddShareMemory::memoryManager(), iMid);
-        else
-            r = fn_measureDataToJsonString<double>(YcaddShareMemory::memoryManager(), iMid);
-    }
-    //*yw
-    //遥文处理 vqt整形方式
-    else if (iMid>=0x03000000 && iMid<0x04000000)
-    {
-        if (iFileType==ci_fileType_xml)
-            r = fn_measureDataToXmlString<StrawValue>(StrawShareMemory::memoryManager(), iMid);
-        else
-            r = fn_measureDataToJsonString<StrawValue>(StrawShareMemory::memoryManager(), iMid);
+        r = CxString::format(f_sRtlogBodyJson, "", iMid, 1);
+        r = RtdbLogFile::loadMeasureChanged(iMid, dtBeing, dtEnd);
     }
 
     return r;
 }
 
+//*获取实时数据返回（以数组形式），可以XML或JSON的方式
+//iFileType =0：表示XML方式； =1：表示JSON方式
+string fn_rtlogGetArrayString(int iBeginMid, int iMidCount, msepoch_t dtBeing, msepoch_t dtEnd, int iFileType=ci_fileType_xml)
+{
+    string r;
 
+    int iEndMid = iBeginMid + iMidCount;
+    GM_INVALID_RETURE_(iEndMid <= oMemoryManager->getMaxId(), r);
 
+    if (iFileType==ci_fileType_xml)
+    {
+        for (int i = iBeginMid; i < iEndMid; ++i)
+        {
+            r += fn_measureDataToXmlString<int>(oMemoryManager, i);
+        }
+    }
+    else
+    {
+        for (int i = iBeginMid; i < iEndMid; ++i)
+        {
+            r += fn_measureDataToJsonString<int>(oMemoryManager, i);
+            if (i < iEndMid-1)
+                r.push_back(',');
+        }
+    }
+
+    return r;
+}
 
 
 
@@ -1953,6 +2097,89 @@ protected:
 //                                        cxDebug() << "debug-20160318 sOut" << sOut;
                                         if (i < vParams->Size()-1)
                                             sOut.push_back(',');
+                                    }
+                                }
+                            }
+                                // # structtype rtlog_v101
+                            else if (sStructType.find("rtlog_v101") != string::npos)
+                            {
+                                sOutBegin = CxString::format(sOutBegin.c_str(), "rtlog_v001");
+                                rapidjson::Value * vParams = CxJson::findMember(d, "params");
+                                if (vParams && vParams->IsArray())
+                                {
+                                    for (SizeType i = 0; i < vParams->Size(); ++i)
+                                    {
+                                        Value & vMeasure = (*vParams)[i];
+                                        int iMid = 0;
+                                        string sUrl = CxJson::findMemberToString(vMeasure, cs_url);
+                                        if (sUrl.size()>0)
+                                        {
+                                            std::map<string, int>::const_iterator it = f_urlMids.find(sUrl);
+                                            if (it != f_urlMids.end())
+                                            {
+                                                iMid = it->second;
+                                            }
+                                            else
+                                            {
+                                                iMid = CxJson::findMemberToInt(vMeasure, cs_mid);
+                                            }
+                                        }
+                                        msepoch_t dtBegin = CxTime::currentDayEnd() - GM_MSEPOCH_ONE_DAY + 2;
+                                        string sDtBegin = CxJson::findMemberToString(vMeasure, cs_tbegin);
+                                        if (sDtBegin.size()>0)
+                                        {
+                                            dtBegin = CxString::toInt64(sDtBegin);
+                                        }
+                                        msepoch_t dtEnd = CxTime::currentDayEnd();
+                                        string sDtEnd = CxJson::findMemberToString(vMeasure, cs_tend);
+                                        if (sDtEnd.size()>0)
+                                        {
+                                            dtEnd = CxString::toInt64(sDtEnd);
+                                        }
+                                        sOut += fn_rtlogGetString(iMid, dtBegin, dtEnd, ci_fileType_json);
+//                                        cxDebug() << "debug-20160318 mid" << iMid;
+//                                        cxDebug() << "debug-20160318 sOut" << sOut;
+                                        if (i < vParams->Size()-1)
+                                            sOut.push_back(',');
+                                    }
+                                }
+                            }
+                                //**structtype 为 rtlog_v102
+                            else if (sStructType.find("rtlog_v102") != string::npos)
+                            {
+                                sOutBegin = CxString::format(sOutBegin.c_str(), "rtlog_v001");
+                                rapidjson::Value * vParams = CxJson::findMember(d, "params");
+                                if (vParams && vParams->IsArray())
+                                {
+                                    for (SizeType i = 0; i < vParams->Size(); ++i)
+                                    {
+                                        Value & vMeasure = (*vParams)[i];
+                                        int iMid = 0;
+                                        string sUrl = CxJson::findMemberToString(vMeasure, cs_url);
+                                        if (sUrl.size()>0)
+                                        {
+                                            std::map<string, int>::const_iterator it = f_urlMids.find(sUrl);
+                                            if (it != f_urlMids.end())
+                                            {
+                                                iMid = it->second;
+                                            }
+                                            else
+                                            {
+                                                iMid = CxJson::findMemberToInt(vMeasure, cs_mid);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            iMid = CxJson::findMemberToInt(vMeasure, cs_mid);
+                                        }
+                                        int iCount = CxJson::findMemberToInt(vMeasure, "count");
+                                        string rOut = fn_rtlogGetArrayString(iMid, iCount, ci_fileType_json);
+                                        if (rOut.size()>0)
+                                        {
+                                            sOut += rOut;
+                                            if (i < vParams->Size()-1)
+                                                sOut.push_back(',');
+                                        }
                                     }
                                 }
                             }

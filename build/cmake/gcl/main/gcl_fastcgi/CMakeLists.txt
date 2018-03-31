@@ -11,6 +11,8 @@ mc_gcl_shm_include()
 mc_gcl_vdi_daemon_heartbeat_include()
 
 set(gsl_fastcgi_files
+        main/gcl_rtdbs/rtdb_logfile.h
+        main/gcl_rtdbs/rtdb_logfile.cpp
         main/fastcgi/main.cpp
         main/fastcgi/readme.md
         )
