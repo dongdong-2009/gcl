@@ -187,7 +187,7 @@ filetype = json
 // url 是全局统一资源名（可以通用在容器对象或实体对象中）
 // mid 是实时库的实时点全局唯一id
 // url和mid可以只有一个，两个同时都有时以mid为准
-// http://10.31.0.15:8821/ics.cgi?fncode=req.rtdata_v101&filetype=json
+// http://10.31.0.15:8821/ics.cgi?fncode=req.rtlog_v101&filetype=json
 
 // 散列请求：rtlog_v101
 fncode = req.rtlog_v101
@@ -201,41 +201,16 @@ filetype = json
     {
     "url": "/fp/zyj/fgj01/rfid",
     "mid": 33556644,
-    "tbegin": 31343242341,
-    "tend": 23413241234
+    "dtday": "20180329",
+    "dtbegin": 31343242341,
+    "dtend": 23413241234
     },
     {
     "url": "/fp/zyj/fgj01/ypmm",
     "mid": 33556645,
-     "tbegin": 31343242341,
-    "tend": 23413241234
-    }
-  ]
-}
-
-
- // 数组请求中是以url为索引时，如果url可以对应到mid就以mid为开始索引；如果url是容器时就返回容器对应数量内个数
-fncode = req.rtlog_v102
-filetype = json
-
-{
-  "session":"sbid=0001;xxx=adfadsf",
-  "structtype": "rtlog_v102",
-  "params":
-  [
-    {
-    "url": "/fp/zyj/fgj01/rfid",
-    "mid": 33556644,
-      "tbegin": 31343242341,
-    "tend": 23413241234,
-    "count": 100
-    },
-    {
-    "url": "/fp/zyj/fgj01/ypmm",
-    "mid": 33556645,
-       "tbegin": 31343242341,
-    "tend": 23413241234,
-    "count": 100
+    "dtday": "20180329",
+    "dtbegin": 31343242341,
+    "dtend": 23413241234
     }
   ]
 }
@@ -256,17 +231,19 @@ filetype = json
     {
     "url":"/fp/zyj/fgj01/rfid",
     "mid":33556644,
-     "tbegin": 31343242341,
-    "tend": 23413241234,
-    "log": "",
+    "dtday": "20180329",
+    "dtbegin": 31343242341,
+    "dtend": 23413241234,
+    "log": "#logfile.text",
     "state":0
     },
     {
     "url":"/fp/zyj/fgj01/ypmm",
     "mid":33556645,
-     "tbegin": 31343242341,
-    "tend": 23413241234,
-    "log": "",
+    "dtday": "20180329",
+    "dtbegin": 31343242341,
+    "dtend": 23413241234,
+    "log": "#logfile.text",
     "state":0
     }
   ]
@@ -488,8 +465,9 @@ const char * cs_v = "v";
 const char * cs_q = "q";
 const char * cs_t = "t";
 const char * cs_state = "state";
-const char * cs_tbegin = "tbegin";
-const char * cs_tend = "tend";
+const char * cs_dtday = "dtday";
+const char * cs_dtbegin = "dtbegin";
+const char * cs_dtend = "dtend";
 
 
 static std::map<std::string, int> f_urlMids;
@@ -905,7 +883,7 @@ string fn_measureGetArrayString(int iBeginMid, int iMidCount, int iFileType=ci_f
 
 // # 获取实时数据返回（以数组形式），可以XML或JSON的方式
 // # iFileType =0：表示XML方式； =1：表示JSON方式
-string fn_rtlogGetString(int iMid, msepoch_t dtBeing, msepoch_t dtEnd, int iFileType=0)
+string fn_rtlogGetString(const string & sUrl, int iMid, string sDtDay, int iFileType=0)
 {
     string r;
 
@@ -914,8 +892,24 @@ string fn_rtlogGetString(int iMid, msepoch_t dtBeing, msepoch_t dtEnd, int iFile
     }
     else
     {
+        string sBegin = CxString::format("{\"url\":\"%s\",\"mid\":%d,\"dtday\":\"%s\",\"log\":\"", sUrl.c_str(), iMid, sDtDay.c_str());
+        string sBody = RtdbLogFile::loadMeasureChanged(iMid, sDtDay);
+        string sEnd = "\",\"state\":1}";
+        r = sBegin + sBody + sEnd;
+    }
 
-        string sBegin = CxString::format("{\"url\":\"%s\",\"mid\":%d,\"tbegin\":%lld,\"tend\":%lld,\"log\":\"", "", iMid, dtBeing, dtEnd);
+    return r;
+}
+string fn_rtlogGetString(const string & sUrl, int iMid, msepoch_t dtBeing, msepoch_t dtEnd, int iFileType=0)
+{
+    string r;
+
+    if (iFileType==ci_fileType_xml)
+    {
+    }
+    else
+    {
+        string sBegin = CxString::format("{\"url\":\"%s\",\"mid\":%d,\"dtbegin\":%lld,\"dtend\":%lld,\"log\":\"", sUrl.c_str(), iMid, dtBeing, dtEnd);
         string sBody = RtdbLogFile::loadMeasureChanged(iMid, dtBeing, dtEnd);
         string sEnd = "\",\"state\":1}";
         r = sBegin + sBody + sEnd;
@@ -923,33 +917,6 @@ string fn_rtlogGetString(int iMid, msepoch_t dtBeing, msepoch_t dtEnd, int iFile
 
     return r;
 }
-
-//*获取实时数据返回（以数组形式），可以XML或JSON的方式
-//iFileType =0：表示XML方式； =1：表示JSON方式
-string fn_rtlogGetArrayString(int iBeginMid, int iMidCount, msepoch_t dtBeing, msepoch_t dtEnd, int iFileType=ci_fileType_xml)
-{
-    string r;
-
-    int iEndMid = iBeginMid + iMidCount;
-    if (iFileType==ci_fileType_xml)
-    {
-        for (int i = iBeginMid; i < iEndMid; ++i)
-        {
-        }
-    }
-    else
-    {
-        for (int i = iBeginMid; i < iEndMid; ++i)
-        {
-            r += fn_rtlogGetString(i, dtBeing, dtEnd, iFileType);
-            if (i < iEndMid-1)
-                r.push_back(',');
-        }
-    }
-
-    return r;
-}
-
 
 
 
@@ -2122,74 +2089,31 @@ protected:
                                                 iMid = CxJson::findMemberToInt(vMeasure, cs_mid);
                                             }
                                         }
-                                        msepoch_t dtBegin = CxTime::currentDayEnd() - GM_MSEPOCH_ONE_DAY + 2;
-                                        string sDtBegin = CxJson::findMemberToString(vMeasure, cs_tbegin);
-                                        if (sDtBegin.size()>0)
+                                        string sDtDay = CxJson::findMemberToString(vMeasure, cs_dtday);
+                                        if (sDtDay.size() > 0)
                                         {
-                                            dtBegin = CxString::toInt64(sDtBegin);
+                                            sOut += fn_rtlogGetString(sUrl, iMid, sDtDay, ci_fileType_json);
                                         }
-                                        msepoch_t dtEnd = CxTime::currentDayEnd();
-                                        string sDtEnd = CxJson::findMemberToString(vMeasure, cs_tend);
-                                        if (sDtEnd.size()>0)
+                                        else
                                         {
-                                            dtEnd = CxString::toInt64(sDtEnd);
+                                            msepoch_t dtBegin = CxTime::currentDayEnd() - GM_MSEPOCH_ONE_DAY + 2;
+                                            string sDtBegin = CxJson::findMemberToString(vMeasure, cs_dtbegin);
+                                            if (sDtBegin.size()>0)
+                                            {
+                                                dtBegin = CxString::toInt64(sDtBegin);
+                                            }
+                                            msepoch_t dtEnd = CxTime::currentDayEnd();
+                                            string sDtEnd = CxJson::findMemberToString(vMeasure, cs_dtend);
+                                            if (sDtEnd.size()>0)
+                                            {
+                                                dtEnd = CxString::toInt64(sDtEnd);
+                                            }
+                                            sOut += fn_rtlogGetString(sUrl, iMid, dtBegin, dtEnd, ci_fileType_json);
                                         }
-                                        sOut += fn_rtlogGetString(iMid, dtBegin, dtEnd, ci_fileType_json);
 //                                        cxDebug() << "debug-20160318 mid" << iMid;
 //                                        cxDebug() << "debug-20160318 sOut" << sOut;
                                         if (i < vParams->Size()-1)
                                             sOut.push_back(',');
-                                    }
-                                }
-                            }
-                                //**structtype 为 rtlog_v102
-                            else if (sStructType.find("rtlog_v102") != string::npos)
-                            {
-                                sOutBegin = CxString::format(sOutBegin.c_str(), "rtlog_v001");
-                                rapidjson::Value * vParams = CxJson::findMember(d, "params");
-                                if (vParams && vParams->IsArray())
-                                {
-                                    for (SizeType i = 0; i < vParams->Size(); ++i)
-                                    {
-                                        Value & vMeasure = (*vParams)[i];
-                                        int iMid = 0;
-                                        string sUrl = CxJson::findMemberToString(vMeasure, cs_url);
-                                        if (sUrl.size()>0)
-                                        {
-                                            std::map<string, int>::const_iterator it = f_urlMids.find(sUrl);
-                                            if (it != f_urlMids.end())
-                                            {
-                                                iMid = it->second;
-                                            }
-                                            else
-                                            {
-                                                iMid = CxJson::findMemberToInt(vMeasure, cs_mid);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            iMid = CxJson::findMemberToInt(vMeasure, cs_mid);
-                                        }
-                                        int iCount = CxJson::findMemberToInt(vMeasure, "count");
-                                        msepoch_t dtBegin = CxTime::currentDayEnd() - GM_MSEPOCH_ONE_DAY + 2;
-                                        string sDtBegin = CxJson::findMemberToString(vMeasure, cs_tbegin);
-                                        if (sDtBegin.size()>0)
-                                        {
-                                            dtBegin = CxString::toInt64(sDtBegin);
-                                        }
-                                        msepoch_t dtEnd = CxTime::currentDayEnd();
-                                        string sDtEnd = CxJson::findMemberToString(vMeasure, cs_tend);
-                                        if (sDtEnd.size()>0)
-                                        {
-                                            dtEnd = CxString::toInt64(sDtEnd);
-                                        }
-                                        string rOut = fn_rtlogGetArrayString(iMid, iCount, dtBegin, dtEnd, ci_fileType_json);
-                                        if (rOut.size()>0)
-                                        {
-                                            sOut += rOut;
-                                            if (i < vParams->Size()-1)
-                                                sOut.push_back(',');
-                                        }
                                     }
                                 }
                             }

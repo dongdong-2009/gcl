@@ -205,19 +205,6 @@ RtdbLogFile::getMeasureChanngedText(const StrawValue& value,
                             iChangedReasonId);
 }
 
-std::string
-RtdbLogFile::logRtlogToJsonString2(int iMeasureId)
-{
-    std::string sFileName = CxString::toHexstring(iMeasureId) + ".txt";
-    std::string sFilePath = CxFileSystem::mergeFilePath(getMeasureLogPath(), sFileName);
-    vector<string> sLines;
-    CxFile::load(sFilePath, s)
-    FILE* oFile = fopen(sFilePath.data(), "ab+");
-
-
-    return std::string();
-}
-
 int
 RtdbLogFile::init()
 {
@@ -226,6 +213,16 @@ RtdbLogFile::init()
     CxFileSystem::createDirMultiLevel(f_sLogPath);
 
     return TRUE;
+}
+
+std::string
+RtdbLogFile::loadMeasureChanged(int iMeasureId, const std::string& sDirName)
+{
+    string sLogPath = CxFileSystem::mergeFilePath(CxAppEnv::dataPath(), sDirName);
+    std::string sFileName = CxString::toHexstring(iMeasureId) + ".txt";
+    std::string sFilePath = CxFileSystem::mergeFilePath(sLogPath, sFileName);
+    string r = CxFile::load(sFilePath);
+    return r;
 }
 
 std::string
@@ -283,5 +280,5 @@ RtdbLogFile::loadMeasureChanged(int iMeasureId, msepoch_t dtBegin, msepoch_t dtE
         }
     }
 
-    return std::string();
+    return r;
 }

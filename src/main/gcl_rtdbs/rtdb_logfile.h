@@ -141,6 +141,9 @@ public:
     saveStrawChangedIndex(size_t iOldIndex, size_t iNewIndex);
 
     static std::string
+    loadMeasureChanged(int iMeasureId, const std::string & sDirName);
+
+    static std::string
     loadMeasureChanged(int iMeasureId, msepoch_t dtBegin, msepoch_t dtEnd);
 
 };
