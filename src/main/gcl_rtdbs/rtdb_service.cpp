@@ -66,7 +66,7 @@ void RtdbService::timerTimeout(int iInterval)
                 size_t iYcaddChangedIndex = YcaddShareMemory::memoryManager()->checkChangeds(f_ycaddChangedIndex, RtdbLogFile::insertChangeds_ycadd);
                 if (iYcaddChangedIndex != f_ycaddChangedIndex)
                 {
-                    RtdbLogFile::saveMonsbChangedIndex(f_ycaddChangedIndex, iYcaddChangedIndex);
+                    RtdbLogFile::saveYcaddChangedIndex(f_ycaddChangedIndex, iYcaddChangedIndex);
                     f_ycaddChangedIndex = iYcaddChangedIndex;
                 }
             }
@@ -77,7 +77,7 @@ void RtdbService::timerTimeout(int iInterval)
                 size_t iStrawChangedIndex = StrawShareMemory::memoryManager()->checkChangeds(f_strawChangedIndex, RtdbLogFile::insertChangeds_straw);
                 if (iStrawChangedIndex != f_strawChangedIndex)
                 {
-                    RtdbLogFile::saveMonsbChangedIndex(f_strawChangedIndex, iStrawChangedIndex);
+                    RtdbLogFile::saveStrawChangedIndex(f_strawChangedIndex, iStrawChangedIndex);
                     f_strawChangedIndex = iStrawChangedIndex;
                 }
             }
