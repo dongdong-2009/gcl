@@ -54,8 +54,13 @@
 //#    define CGICC_API __declspec(dllimport)
 //#  endif
 
+#ifndef HOST
 #  define HOST "Win32"
+#endif
+
+#ifndef VERSION
 #  define VERSION "3.2.16"
+#endif
 
 #else
 #  define CGICC_API

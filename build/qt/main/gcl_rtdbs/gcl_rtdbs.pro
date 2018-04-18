@@ -5,11 +5,11 @@
 #DEFINES += GM_TRACK
 #PROJECT_TARGET_DEPLOY = 1
 
-DEFINES += OTL_ODBC
+#DEFINES += OTL_ODBC
 #LIBS += -L$$PWD/../../../deploy/win32/gcl_debug
 LIBS += -lgcl_ccxx1
-LIBS += -lgcl_vdi1
-LIBS += -lgcl_script_vxd1
+#LIBS += -lgcl_vdi1
+#LIBS += -lgcl_script_vxd1
 
 #
 include($$PWD/../../gcl_environment.pri)

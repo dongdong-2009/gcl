@@ -30,22 +30,22 @@
   "structtype":"fs_path_scan_v001",
   "data":[
     {
-        "pathType: "file",
-        "path: "/temp",
-        "fileName: "a.txt"
-        "fileSize: 1521,
+        "pathType": "file",
+        "path": "/temp",
+        "fileName": "a.txt"
+        "fileSize": 1521,
         "fileSession: "sbid=0001;xxx=adfadsf",
-        "creationTime: 1522124053962,
-        "lastWriteTime: 1522124059163
+        "creationTime": 1522124053962,
+        "lastWriteTime": 1522124059163
     },
     {
-        "pathType: "file",
-        "path: "/temp",
-        "fileName: "a.txt",
-        "fileSize: 1521,
+        "pathType": "file",
+        "path": "/temp",
+        "fileName": "a.txt",
+        "fileSize": 1521,
         "fileSession: "sbid=0001;xxx=adfadsf",
-        "creationTime: 1522124053962,
-        "lastWriteTime: 1522124059163
+        "creationTime": 1522124053962,
+        "lastWriteTime": 1522124059163
     }
   ]
 }
@@ -64,23 +64,23 @@
   "structtype":"fs_path_scan_v001",
   "data":[
     {
-        "pathType: "file",
-        "path: "/temp",
-        "fileName: "a.txt"
-        "fileSize: 1521,
+        "pathType": "file",
+        "path": "/temp",
+        "fileName": "a.txt"
+        "fileSize": 1521,
         "fileSession: "sbid=0001;xxx=adfadsf",
-        "creationTime: 1522124053962,
-        "lastWriteTime: 1522124059163,
+        "creationTime": 1522124053962,
+        "lastWriteTime": 1522124059163,
         "state": 0
     },
     {
-        "pathType: "file",
-        "path: "/temp",
-        "fileName: "a.txt",
-        "fileSize: 1521,
+        "pathType": "file",
+        "path": "/temp",
+        "fileName": "a.txt",
+        "fileSize": 1521,
         "fileSession: "sbid=0001;xxx=adfadsf",
-        "creationTime: 1522124053962,
-        "lastWriteTime: 1522124059163,
+        "creationTime": 1522124053962,
+        "lastWriteTime": 1522124059163,
         "state": 0,
     }
   ]
@@ -172,21 +172,21 @@ filetype = json
   "structtype":"fs_path_scan_v001",
   "data":[
     {
-        "pathType: "file",
-        "path: "/temp",
-        "fileName: "a.txt",
-        "fileSize: 1521,
-        "creationTime: 1522124053962,
-        "lastWriteTime: 1522124059163,
+        "pathType": "file",
+        "path": "/temp",
+        "fileName": "a.txt",
+        "fileSize": 1521,
+        "creationTime": 1522124053962,
+        "lastWriteTime": 1522124059163,
         "state": 0
     },
     {
-        "pathType: "file",
-        "path: "/temp",
-        "fileName: "a.txt",
-        "fileSize: 1521,
-        "creationTime: 1522124053962,
-        "lastWriteTime: 1522124059163,
+        "pathType": "file",
+        "path": "/temp",
+        "fileName": "a.txt",
+        "fileSize": 1521,
+        "creationTime": 1522124053962,
+        "lastWriteTime": 1522124059163,
         "state": 0
     }
   ]
@@ -227,12 +227,12 @@ filetype = json
   "structtype":"fs_path_list_v001",
   "data":[
     {
-        "pathType: "file",
-        "path: "/temp",
-        "fileName: "a.txt",
-        "fileSize: 1521,
-        "creationTime: 1522124053962,
-        "lastWriteTime: 1522124059163,
+        "pathType": "file",
+        "path": "/temp",
+        "fileName": "a.txt",
+        "fileSize": 1521,
+        "creationTime": 1522124053962,
+        "lastWriteTime": 1522124059163,
         "state": 0
     }
   ]
@@ -277,21 +277,21 @@ filetype = json
   "structtype":"fs_path_info_v001",
   "data":[
     {
-        "pathType: "file",
-        "path: "/temp",
-        "fileName: "a.txt",
-        "fileSize: 1521,
-        "creationTime: 1522124053962,
-        "lastWriteTime: 1522124059163,
+        "pathType": "file",
+        "path": "/temp",
+        "fileName": "a.txt",
+        "fileSize": 1521,
+        "creationTime": 1522124053962,
+        "lastWriteTime": 1522124059163,
         "state": 0
     },
     {
-        "pathType: "file",
-        "path: "/temp",
-        "fileName: "a.txt",
-        "fileSize: 1521,
-        "creationTime: 1522124053962,
-        "lastWriteTime: 1522124059163,
+        "pathType": "file",
+        "path": "/temp",
+        "fileName": "a.txt",
+        "fileSize": 1521,
+        "creationTime": 1522124053962,
+        "lastWriteTime": 1522124059163,
         "state": 0
     }
   ]
@@ -473,12 +473,12 @@ string fn_url2path(const string& sUrlType, const string& sUrl)
 
 string fn_resqFsPathInfo(const string& sUrlType, const string& sUrl)
 {
-//    "pathType: "%s","path: "%s","fileName: "%s","fileSize: %lld,"creationTime: %lld,"lastWriteTime: %lld,"state": %d
-    static const char csPathInfo[] = "{\"pathType: \"%s\",\"path: \"%s\",\"fileName: \"%s\",\"fileSize: %lld,\"creationTime: %lld,\"lastWriteTime: %lld,\"state\": %d}";
+//    "pathType": "%s","path": "%s","fileName": "%s","fileSize": %lld,"creationTime": %lld,"lastWriteTime": %lld,"state": %d
+    static const char csPathInfo[] = "{\"pathType\": \"%s\",\"path\": \"%s\",\"fileName\": \"%s\",\"fileSize\": %lld,\"creationTime\": %lld,\"lastWriteTime\": %lld,\"state\": %d}";
     CxFilePathInfo pathInfo= CxFileSystem::getPathInfo(fn_url2path(sUrlType, sUrl));
     string r = CxString::format(csPathInfo,
                                 CxFileSystem::getPathTypeString(pathInfo.pathType).c_str(),
-                                pathInfo.path.c_str(), pathInfo.fileName.c_str(),
+                                CxFileSystem::convertPathStyle(CxFileSystem::normalize(pathInfo.path)).c_str(), pathInfo.fileName.c_str(),
                                 pathInfo.fileSize, pathInfo.creationTime, pathInfo.lastWriteTime,
                                 (int)0);
     return r;
@@ -486,8 +486,8 @@ string fn_resqFsPathInfo(const string& sUrlType, const string& sUrl)
 
 vector<string> fn_resqFsPathScan(const string& sUrlType, const string& sUrl, bool bIncludeSubDir)
 {
-//    "pathType: "%s","path: "%s","fileName: "%s","fileSize: %lld,"creationTime: %lld,"lastWriteTime: %lld,"state": %d
-    static const char csPathInfo[] = "{\"pathType: \"%s\",\"path: \"%s\",\"fileName: \"%s\",\"fileSize: %lld,\"creationTime: %lld,\"lastWriteTime: %lld,\"state\": %d}";
+//    "pathType": "%s","path": "%s","fileName": "%s","fileSize": %lld,"creationTime": %lld,"lastWriteTime": %lld,"state": %d
+    static const char csPathInfo[] = "{\"pathType\": \"%s\",\"path\": \"%s\",\"fileName\": \"%s\",\"fileSize\": %lld,\"creationTime\": %lld,\"lastWriteTime\": %lld,\"state\": %d}";
     std::vector<CxFilePathInfo> pathInfos;
     CxFileSystem::scanDir(fn_url2path(sUrlType, sUrl), pathInfos, bIncludeSubDir, true);
     vector<string> r;
@@ -496,7 +496,7 @@ vector<string> fn_resqFsPathScan(const string& sUrlType, const string& sUrl, boo
         const CxFilePathInfo& pathInfo = pathInfos.at(j);
         string sPathInfo = CxString::format(csPathInfo,
                                             CxFileSystem::getPathTypeString(pathInfo.pathType).c_str(),
-                                            pathInfo.path.c_str(), pathInfo.fileName.c_str(),
+                                            CxFileSystem::convertPathStyle(CxFileSystem::normalize(pathInfo.path)).c_str(), pathInfo.fileName.c_str(),
                                             pathInfo.fileSize, pathInfo.creationTime, pathInfo.lastWriteTime,
                                             (int)0);
         r.push_back(sPathInfo);
@@ -868,29 +868,84 @@ protected:
                             //**structtype 为 rtdata_v101
                             cxLogDebug() << sStructType << " begin " << CxTime::currentMsepochString();
 
-                                // **structtype 为 fs_path_info_v101
-                            if (sStructType.find("fs_path_info_v101") != string::npos)
+                            if (sStructType.find("fs_path_info_v101") != string::npos ||
+                                sStructType.find("fs_path_list_v101") != string::npos ||
+                                sStructType.find("fs_path_scan_v101") != string::npos
+                                )
                             {
-                                sOutBegin = CxString::format(sOutBegin.c_str(), "fs_path_info_v001");
-                                rapidjson::Value * vParams = CxJson::findMember(d, "params");
-                                if (vParams && vParams->IsArray())
+                                    // **structtype 为 fs_path_info_v101
+                                if (sStructType.find("fs_path_info_v101") != string::npos)
                                 {
-                                    for (SizeType i = 0; i < vParams->Size(); ++i)
+                                    sOutBegin = CxString::format(sOutBegin.c_str(), "fs_path_info_v001");
+                                    rapidjson::Value * vParams = CxJson::findMember(d, "params");
+                                    if (vParams && vParams->IsArray())
                                     {
-                                        Value & vMeasure = (*vParams)[i];
-                                        int iMid = 0;
-                                        string sUrlType = CxJson::findMemberToString(vMeasure, cs_urlType);
-                                        string sUrl = CxJson::findMemberToString(vMeasure, cs_url);
-                                        sOut += fn_resqFsPathInfo(sUrlType, sUrl);
-                                        if (i < vParams->Size()-1)
-                                            sOut.push_back(',');
+                                        for (SizeType i = 0; i < vParams->Size(); ++i)
+                                        {
+                                            Value & vMeasure = (*vParams)[i];
+                                            int iMid = 0;
+                                            string sUrlType = CxJson::findMemberToString(vMeasure, cs_urlType);
+                                            string sUrl = CxJson::findMemberToString(vMeasure, cs_url);
+                                            sOut += fn_resqFsPathInfo(sUrlType, sUrl);
+                                            if (i < vParams->Size()-1)
+                                                sOut.push_back(',');
+                                        }
                                     }
                                 }
+                                    // **structtype 为 fs_path_list_v001
+                                else if (sStructType.find("fs_path_list_v101") != string::npos)
+                                {
+                                    sOutBegin = CxString::format(sOutBegin.c_str(), "fs_path_list_v001");
+                                    rapidjson::Value * vParams = CxJson::findMember(d, "params");
+                                    if (vParams && vParams->IsArray())
+                                    {
+                                        for (SizeType i = 0; i < vParams->Size(); ++i)
+                                        {
+                                            Value & vMeasure = (*vParams)[i];
+                                            int iMid = 0;
+                                            string sUrlType = CxJson::findMemberToString(vMeasure, cs_urlType);
+                                            string sUrl = CxJson::findMemberToString(vMeasure, cs_url);
+                                            vector<string> sPathInfos = fn_resqFsPathScan(sUrlType, sUrl, false);
+                                            sOut = CxString::join(sPathInfos, ',');
+                                            continue;
+                                        }
+                                    }
+                                }
+                                    // **structtype 为 fs_path_scan_v101
+                                else
+                                {
+                                    sOutBegin = CxString::format(sOutBegin.c_str(), "fs_path_scan_v001");
+                                    rapidjson::Value * vParams = CxJson::findMember(d, "params");
+                                    if (vParams && vParams->IsArray())
+                                    {
+                                        for (SizeType i = 0; i < vParams->Size(); ++i)
+                                        {
+                                            Value & vMeasure = (*vParams)[i];
+                                            int iMid = 0;
+                                            string sUrlType = CxJson::findMemberToString(vMeasure, cs_urlType);
+                                            string sUrl = CxJson::findMemberToString(vMeasure, cs_url);
+                                            vector<string> sPathInfos = fn_resqFsPathScan(sUrlType, sUrl, true);
+                                            sOut = CxString::join(sPathInfos, ',');
+                                            continue;
+                                        }
+                                    }
+                                }
+
+                                cxDebug() << sStructType << " ing " << CxTime::currentMsepochString();
+
+                                IO << HTTPResponseHeader("HTTP/1.1", 200, "OK")
+                                    .addHeader("Access-Control-Allow-Origin", "*")
+                                    .addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization")
+                                    .addHeader("Content-Type", "application/json");
+                                IO << sOutBegin;
+                                IO << sOut;
+                                IO << sOutEnd << endl;
+
+                                cxDebug() << sStructType << " end " << CxTime::currentMsepochString();
                             }
-                                // **structtype 为 fs_path_list_v001
-                            else if (sStructType.find("fs_path_list_v101") != string::npos)
+                            else if (sStructType.find("fs_file_load_v101") != string::npos)
                             {
-                                sOutBegin = CxString::format(sOutBegin.c_str(), "fs_path_list_v001");
+                                // fs_file_load_v101
                                 rapidjson::Value * vParams = CxJson::findMember(d, "params");
                                 if (vParams && vParams->IsArray())
                                 {
@@ -900,56 +955,38 @@ protected:
                                         int iMid = 0;
                                         string sUrlType = CxJson::findMemberToString(vMeasure, cs_urlType);
                                         string sUrl = CxJson::findMemberToString(vMeasure, cs_url);
-                                        vector<string> sPathInfos = fn_resqFsPathScan(sUrlType, sUrl, false);
-                                        sOut = CxString::join(sPathInfos, ',');
-                                        continue;
+                                        string sFilePath = fn_url2path(sUrlType, sUrl);
+                                        sOut = CxFile::load(sFilePath);
+                                        break;
                                     }
                                 }
-                            }
-                                // **structtype 为 fs_path_scan_v101
-                            else if (sStructType.find("fs_path_scan_v101") != string::npos)
-                            {
-                                sOutBegin = CxString::format(sOutBegin.c_str(), "fs_path_scan_v001");
-                                rapidjson::Value * vParams = CxJson::findMember(d, "params");
-                                if (vParams && vParams->IsArray())
-                                {
-                                    for (SizeType i = 0; i < vParams->Size(); ++i)
-                                    {
-                                        Value & vMeasure = (*vParams)[i];
-                                        int iMid = 0;
-                                        string sUrlType = CxJson::findMemberToString(vMeasure, cs_urlType);
-                                        string sUrl = CxJson::findMemberToString(vMeasure, cs_url);
-                                        vector<string> sPathInfos = fn_resqFsPathScan(sUrlType, sUrl, true);
-                                        sOut = CxString::join(sPathInfos, ',');
-                                        continue;
-                                    }
-                                }
+                                cxDebug() << sStructType << " ing " << CxTime::currentMsepochString();
+
+                                IO << HTTPResponseHeader("HTTP/1.1", 200, "OK")
+                                    .addHeader("Access-Control-Allow-Origin", "*")
+                                    .addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization")
+                                    .addHeader("Content-Type", "data")
+                                    .addHeader("Content-Total", CxString::toString(sOut.size()))
+                                    .addHeader("Content-Index", "0")
+                                    .addHeader("Content-Length", CxString::toString(sOut.size()))
+                                    .addHeader("Content-Session", "")
+                                    .addHeader("Content-State", "");
+                                IO << sOut;
+                                IO << endl;
+
+                                cxDebug() << sStructType << " end " << CxTime::currentMsepochString();
                             }
                             else
                             {
                                 outJsonFinish(oFcgiRequest, "{\"error\":\"can not deal the structtype!\"}");
                                 continue;
                             }
-
-                            cxDebug() << sStructType << " ing " << CxTime::currentMsepochString();
-
-                            IO << HTTPResponseHeader("HTTP/1.1", 200, "OK")
-                                .addHeader("Access-Control-Allow-Origin", "*")
-                                .addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization")
-                                .addHeader("Content-Type", "application/json");
-                            IO << sOutBegin;
-                            IO << sOut;
-                            IO << sOutEnd << endl;
-
-                            cxDebug() << sStructType << " end " << CxTime::currentMsepochString();
                         }
                         else
                         {
                             cxLog() << "!!!warning. do not know sContentType: " << sContentType;
                         }
                     }
-
-
                 }
 
                 /*

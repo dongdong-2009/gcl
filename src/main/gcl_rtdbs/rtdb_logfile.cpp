@@ -12,10 +12,11 @@ static const string f_sMeasureChangedIndexText = "%d, %d, 1, %lld\n";
 // oChangedData->changedTime,
 // oChangedData->value,
 // oChangedData->quality,
-// oChangedData->changedSourceId, oChangedData->changedReasonId
-static const string f_sMonsbChangedIndexText = "%lld,%d,%d,%d,%d;";
-static const string f_sYcaddChangedIndexText = "%lld,%f,%d,%d,%d;";
-static const string f_sStrawChangedIndexText = "%lld,%s,%d,%d,%d;";
+// oChangedData->changedSourceId,
+// oChangedData->changedReasonId
+static const string f_sMonsbChangedIndexText = ",[%lld,%d,%d,%d,%d]";
+static const string f_sYcaddChangedIndexText = ",[%lld,%f,%d,%d,%d]";
+static const string f_sStrawChangedIndexText = ",[%lld,%s,%d,%d,%d]";
 
 static string f_sLogPath = string();
 

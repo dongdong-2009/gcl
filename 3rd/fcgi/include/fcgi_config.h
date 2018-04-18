@@ -102,7 +102,9 @@
 #define USE_LOCKING 1
 
 /* Version number of package */
-#define VERSION "2.4.1-SNAP-0311112127"
+#ifndef VERSION
+#  define VERSION "2.4.1-SNAP-0311112127"
+#endif
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */
