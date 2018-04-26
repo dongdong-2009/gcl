@@ -40,7 +40,7 @@ set(gsl_ccxx_heads
         cxcontext.h
         cxdescribe.h
         cxprofile.h
-        cxxml.h
+        cxtinyxml.h
         cxefile.h
         cxsharememory.h
         cxsocket.h
@@ -62,7 +62,7 @@ set(gsl_ccxx_heads
         cxbusiness.h
         cxencoding.h
         cxresource.h
-        cxjson.h
+        cxrapidjson.h
         cxuuid.h
         cxprocmutex.h
         cxwinreg.h
@@ -89,7 +89,7 @@ set(gsl_ccxx_sources
         tinyxml/tinyxml.cpp
         tinyxml/tinyxmlerror.cpp
         tinyxml/tinyxmlparser.cpp
-        cxxml.cpp
+        cxtinyxml.cpp
         cxefile.cpp
         cxsharememory.cpp
         cxsocket.cpp
@@ -114,7 +114,7 @@ set(gsl_ccxx_sources
         cxprofile_factorymanager.cpp
         cxdescribe_factorymanager.cpp
         cxresource.cpp
-        cxjson.cpp
+        cxrapidjson.cpp
         cxuuid.cpp
         cxprocmutex.cpp
         cxwinreg.cpp
@@ -136,7 +136,7 @@ set(gsl_ccxx_env_heads
         cxfile.h
         cxappenv.h
         cxprofile.h
-        cxjson.h
+        cxrapidjson.h
         cxprofile_skv_json.h
         )
 
@@ -147,7 +147,7 @@ set(gsl_ccxx_env_sources
         cxfile.cpp
         cxappenv.cpp
         cxprofile.cpp
-        cxjson.cpp
+        cxrapidjson.cpp
         cxprofile_skv_json.cpp
         cxprofile_factorymanager.cpp
         )
@@ -170,7 +170,7 @@ set(gsl_ccxx_interinfo_heads
         cxfile.h
         cxappenv.h
         cxprofile.h
-        cxjson.h
+        cxrapidjson.h
         cxprofile_skv_json.h
         cxthread.h
         cxinterinfo.h
@@ -184,7 +184,7 @@ set(gsl_ccxx_interinfo_sources
         cxfile.cpp
         cxappenv.cpp
         cxprofile.cpp
-        cxjson.cpp
+        cxrapidjson.cpp
         cxprofile_skv_json.cpp
         cxprofile_factorymanager.cpp
         cxthread.cpp
@@ -210,7 +210,7 @@ set(gsl_ccxx_simple_heads
         cxfile.h
         cxappenv.h
         cxprofile.h
-        cxjson.h
+        cxrapidjson.h
         cxprofile_skv_json.h
         cxthread.h
         cxinterinfo.h
@@ -220,7 +220,7 @@ set(gsl_ccxx_simple_heads
         cxmath.h
         cxbuffer.h
         cxcrc.h
-        cxxml.h
+        cxtinyxml.h
         cxprofile_skv_xml.h
         cxsocket.h
         cxprocess.h
@@ -238,7 +238,7 @@ set(gsl_ccxx_simple_sources
         cxfile.cpp
         cxappenv.cpp
         cxprofile.cpp
-        cxjson.cpp
+        cxrapidjson.cpp
         cxprofile_skv_json.cpp
         cxprofile_factorymanager.cpp
         cxthread.cpp
@@ -248,7 +248,7 @@ set(gsl_ccxx_simple_sources
         cxmath.cpp
         cxbuffer.cpp
         cxcrc.cpp
-        cxxml.cpp
+        cxtinyxml.cpp
         tinyxml/tinyxml.cpp
         tinyxml/tinyxmlerror.cpp
         tinyxml/tinyxmlparser.cpp

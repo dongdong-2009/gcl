@@ -384,7 +384,7 @@ protected:
                     {
                         string sPostData = CGI.getEnvironment().getPostData();
                         std::vector<std::map<std::string, std::string> > rows;
-                        CxXml::loadTable2Level(sPostData.data(), sPostData.size(), rows, "", "MSG");
+                        CxTinyXml::loadTable2Level(sPostData.data(), sPostData.size(), rows, "", "MSG");
                         string sOut;
                         for (size_t i = 0; i < rows.size(); ++i)
                         {

@@ -50,7 +50,7 @@ SBID	计量设备ID	Integer	10	对应管理对象2100	M
 
 #include "gcl_measure2db.h"
 #include <vdi/measure_sharememory_all.h>
-#include <ccxx/cxjson.h>
+#include <ccxx/cxrapidjson.h>
 
 
 #include <ccxx/cxdatabase_sqlite.h>
@@ -632,7 +632,7 @@ void Measure2db::loadMeasureConfig(const std::string & sFilePath)
     if (CxFileSystem::isExist(sFilePath))
     {
         vector<map<string, string> > rows;
-        if ( CxJson::loadTable(sFilePath, rows) > 0 )
+        if ( CxRapidJson::loadTable(sFilePath, rows) > 0 )
         {
             for (size_t i = 0; i < rows.size(); ++i)
             {

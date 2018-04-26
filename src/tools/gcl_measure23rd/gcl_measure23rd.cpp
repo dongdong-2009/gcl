@@ -50,7 +50,7 @@ SBID	计量设备ID	Integer	10	对应管理对象2100	M
 
 #include "gcl_measure23rd.h"
 #include <vdi/measure_sharememory_all.h>
-#include <ccxx/cxjson.h>
+#include <ccxx/cxrapidjson.h>
 
 #ifdef RTDCLIENT_API
 #include <ics_rtdclient_api.h>

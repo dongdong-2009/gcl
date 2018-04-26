@@ -860,7 +860,7 @@ protected:
                         {
                             string sPostData = CGI.getEnvironment().getPostData();
                             std::vector<std::map<std::string, std::string> > rows;
-                            CxXml::loadTable2Level(sPostData.data(), sPostData.size(), rows, "", "MSG");
+                            CxTinyXml::loadTable2Level(sPostData.data(), sPostData.size(), rows, "", "MSG");
                             string sOut;
                             for (size_t i = 0; i < rows.size(); ++i)
                             {
@@ -911,8 +911,8 @@ protected:
                                 continue;
                             }
 
-                            string sSession = CxJson::findMemberToString(d, "session");
-                            string sStructType = CxJson::findMemberToString(d, "structtype");
+                            string sSession = CxRapidJson::findMemberToString(d, "session");
+                            string sStructType = CxRapidJson::findMemberToString(d, "structtype");
                             string sOutBegin = CxString::format("{\"session\":\"%s\",\"structtype\":\"%s\",\"data\":[", sSession.c_str());
                             string sOut;
                             string sOutEnd = "]}";
@@ -921,14 +921,14 @@ protected:
                             if (sStructType.find("rtdata_v101") != string::npos)
                             {
                                 sOutBegin = CxString::format(sOutBegin.c_str(), "rtdata_v001");
-                                rapidjson::Value * vParams = CxJson::findMember(d, "params");
+                                rapidjson::Value * vParams = CxRapidJson::findMember(d, "params");
                                 if (vParams && vParams->IsArray())
                                 {
                                     for (SizeType i = 0; i < vParams->Size(); ++i)
                                     {
                                         Value & vMeasure = (*vParams)[i];
                                         int iMid = 0;
-                                        string sUrl = CxJson::findMemberToString(vMeasure, cs_url);
+                                        string sUrl = CxRapidJson::findMemberToString(vMeasure, cs_url);
                                         if (sUrl.size()>0)
                                         {
                                             std::map<string, int>::const_iterator it = f_urlMids.find(sUrl);
@@ -938,12 +938,12 @@ protected:
                                             }
                                             else
                                             {
-                                                iMid = CxJson::findMemberToInt(vMeasure, cs_mid);
+                                                iMid = CxRapidJson::findMemberToInt(vMeasure, cs_mid);
                                             }
                                         }
                                         else
                                         {
-                                            iMid = CxJson::findMemberToInt(vMeasure, cs_mid);
+                                            iMid = CxRapidJson::findMemberToInt(vMeasure, cs_mid);
                                         }
                                         sOut += fn_measureGetString(iMid, ci_fileType_json);
 //                                        cxDebug() << "debug-20160318 mid" << iMid;
@@ -957,14 +957,14 @@ protected:
                             else if (sStructType.find("rtdata_v102") != string::npos)
                             {
                                 sOutBegin = CxString::format(sOutBegin.c_str(), "rtdata_v001");
-                                rapidjson::Value * vParams = CxJson::findMember(d, "params");
+                                rapidjson::Value * vParams = CxRapidJson::findMember(d, "params");
                                 if (vParams && vParams->IsArray())
                                 {
                                     for (SizeType i = 0; i < vParams->Size(); ++i)
                                     {
                                         Value & vMeasure = (*vParams)[i];
                                         int iMid = 0;
-                                        string sUrl = CxJson::findMemberToString(vMeasure, cs_url);
+                                        string sUrl = CxRapidJson::findMemberToString(vMeasure, cs_url);
                                         if (sUrl.size()>0)
                                         {
                                             std::map<string, int>::const_iterator it = f_urlMids.find(sUrl);
@@ -974,14 +974,14 @@ protected:
                                             }
                                             else
                                             {
-                                                iMid = CxJson::findMemberToInt(vMeasure, cs_mid);
+                                                iMid = CxRapidJson::findMemberToInt(vMeasure, cs_mid);
                                             }
                                         }
                                         else
                                         {
-                                            iMid = CxJson::findMemberToInt(vMeasure, cs_mid);
+                                            iMid = CxRapidJson::findMemberToInt(vMeasure, cs_mid);
                                         }
-                                        int iCount = CxJson::findMemberToInt(vMeasure, "count");
+                                        int iCount = CxRapidJson::findMemberToInt(vMeasure, "count");
                                         string rOut = fn_measureGetArrayString(iMid, iCount, ci_fileType_json);
                                         if (rOut.size()>0)
                                         {
@@ -1000,14 +1000,14 @@ protected:
 //                                string sCmd = sFnCode+".json";
                                 int iState = GeneralAccess::postMessage(sFnCode.c_str(),sPostData.c_str(),sPostData.length()) > 0;
                                 msepoch_t dtNow = CxTime::currentSystemTime();
-                                rapidjson::Value * vParams = CxJson::findMember(d, "params");
+                                rapidjson::Value * vParams = CxRapidJson::findMember(d, "params");
                                 if (vParams && vParams->IsArray())
                                 {
                                     for (SizeType i = 0; i < vParams->Size(); ++i)
                                     {
                                         Value & vMeasure = (*vParams)[i];
-                                        string sUrl = CxJson::findMemberToString(vMeasure, cs_url);
-                                        string sMid = CxJson::findMemberToString(vMeasure, cs_mid);
+                                        string sUrl = CxRapidJson::findMemberToString(vMeasure, cs_url);
+                                        string sMid = CxRapidJson::findMemberToString(vMeasure, cs_mid);
 
                                         sOut += CxString::format(f_sYkBodyJson, sUrl.c_str(), sMid.c_str(), dtNow, iState);
 //                                        cxDebug() << "debug-20160318 mid" << iMid;

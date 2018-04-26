@@ -3,7 +3,6 @@
 include(./../../../3rd/cgicc.cmake)
 include(./../../../3rd/fcgi.cmake)
 
-mc_ccxx_regexp_include()
 mc_3rd_cgicc_include()
 mc_3rd_fcgi_include()
 mc_gcl_psm_include()
@@ -19,7 +18,6 @@ mc_merge_file_path(${gs_gcl_src_path} "${gsl_fastcgi_files}" gsl_fastcgi_filepat
 
 add_executable(gcl_svr_fastcgi_rtdata
         ${gsl_fastcgi_filepaths}
-        ${gsl_regexp_source_filepaths}
         ${gsl_3rd_cgicc_filepaths}
         ${gsl_3rd_fcgi_filepaths}
         ${gsl_gcl_psm_filepaths}

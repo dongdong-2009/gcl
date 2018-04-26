@@ -394,10 +394,10 @@ protected:
                     continue;
                 }
 
-                string sSql = CxJson::findMemberToString(d, cs_sql);
+                string sSql = CxRapidJson::findMemberToString(d, cs_sql);
                 if (sSql.empty())
                 {
-                    string sUrl = CxJson::findMemberToString(d, cs_url);
+                    string sUrl = CxRapidJson::findMemberToString(d, cs_url);
                     if (sUrl.empty())
                     {
                         outDealFinish(oFcgiRequest, "{\"error\":\"can not find sql or url in the json string!\"}");

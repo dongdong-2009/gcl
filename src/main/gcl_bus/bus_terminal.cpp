@@ -718,7 +718,7 @@ int BusManager::interinfoIn_cmd(const string &sCommand, const std::map<string, s
             if (CxFileSystem::isExist(sFilePath))
             {
                 vector<map<string, string> > rows;
-                CxXml::loadTable4Level(sFilePath, rows, "", CS_TableName_Bus);
+                CxTinyXml::loadTable4Level(sFilePath, rows, "", CS_TableName_Bus);
                 UpdateTemplate<BusManager>::update(rows);
                 UpdateTemplate<MessageTransferStrategy>::update(rows);
                 UpdateTemplate<FileNameTransferStrategy>::update(rows);
@@ -874,7 +874,7 @@ void BusManager::start()
     if (CxFileSystem::isExist(sConfigFilePath))
     {
         vector<map<string, string> > rows;
-        CxXml::loadTable4Level(sConfigFilePath, rows, "", CS_TableName_Bus, "");
+        CxTinyXml::loadTable4Level(sConfigFilePath, rows, "", CS_TableName_Bus, "");
         UpdateTemplate<BusManager>::update(rows);
         UpdateTemplate<MessageTransferStrategy>::update(rows);
         UpdateTemplate<FileNameTransferStrategy>::update(rows);

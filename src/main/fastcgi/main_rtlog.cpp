@@ -438,8 +438,8 @@ protected:
                                 continue;
                             }
 
-                            string sSession = CxJson::findMemberToString(d, "session");
-                            string sStructType = CxJson::findMemberToString(d, "structtype");
+                            string sSession = CxRapidJson::findMemberToString(d, "session");
+                            string sStructType = CxRapidJson::findMemberToString(d, "structtype");
                             string sOutBegin = CxString::format("{\"session\":\"%s\",\"structtype\":\"%s\",\"data\":[", sSession.c_str());
                             string sOut;
                             string sOutEnd = "]}";
@@ -449,14 +449,14 @@ protected:
                             if (sStructType.find("rtlog_v101") != string::npos)
                             {
                                 sOutBegin = CxString::format(sOutBegin.c_str(), "rtlog_v001");
-                                rapidjson::Value * vParams = CxJson::findMember(d, "params");
+                                rapidjson::Value * vParams = CxRapidJson::findMember(d, "params");
                                 if (vParams && vParams->IsArray())
                                 {
                                     for (SizeType i = 0; i < vParams->Size(); ++i)
                                     {
                                         Value & vMeasure = (*vParams)[i];
                                         int iMid = 0;
-                                        string sUrl = CxJson::findMemberToString(vMeasure, cs_url);
+                                        string sUrl = CxRapidJson::findMemberToString(vMeasure, cs_url);
                                         if (sUrl.size()>0)
                                         {
                                             std::map<string, int>::const_iterator it = f_urlMids.find(sUrl);
@@ -466,10 +466,10 @@ protected:
                                             }
                                             else
                                             {
-                                                iMid = CxJson::findMemberToInt(vMeasure, cs_mid);
+                                                iMid = CxRapidJson::findMemberToInt(vMeasure, cs_mid);
                                             }
                                         }
-                                        string sDtDay = CxJson::findMemberToString(vMeasure, cs_dtday);
+                                        string sDtDay = CxRapidJson::findMemberToString(vMeasure, cs_dtday);
                                         if (sDtDay.size() > 0)
                                         {
                                             sOut += fn_rtlogGetString(sUrl, iMid, sDtDay, ci_fileType_json);
@@ -477,13 +477,13 @@ protected:
                                         else
                                         {
                                             msepoch_t dtBegin = CxTime::currentDayEnd() - GM_MSEPOCH_ONE_DAY + 2;
-                                            string sDtBegin = CxJson::findMemberToString(vMeasure, cs_dtbegin);
+                                            string sDtBegin = CxRapidJson::findMemberToString(vMeasure, cs_dtbegin);
                                             if (sDtBegin.size()>0)
                                             {
                                                 dtBegin = CxString::toInt64(sDtBegin);
                                             }
                                             msepoch_t dtEnd = CxTime::currentDayEnd();
-                                            string sDtEnd = CxJson::findMemberToString(vMeasure, cs_dtend);
+                                            string sDtEnd = CxRapidJson::findMemberToString(vMeasure, cs_dtend);
                                             if (sDtEnd.size()>0)
                                             {
                                                 dtEnd = CxString::toInt64(sDtEnd);

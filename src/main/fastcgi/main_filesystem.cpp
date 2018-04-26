@@ -693,7 +693,7 @@ void CgiFileDealThread::run()
                 }
                 else
                 {
-                    string sFieldValue = CxJson::findMemberToString(d, "data");
+                    string sFieldValue = CxRapidJson::findMemberToString(d, "data");
 //                    printf("\n%s\n",sFieldValue.c_str());
                     if (! CxFile::save(sFilePath,sFieldValue))
                     {
@@ -860,8 +860,8 @@ protected:
                                 continue;
                             }
 
-                            string sSession = CxJson::findMemberToString(d, "session");
-                            string sStructType = CxJson::findMemberToString(d, "structtype");
+                            string sSession = CxRapidJson::findMemberToString(d, "session");
+                            string sStructType = CxRapidJson::findMemberToString(d, "structtype");
                             string sOutBegin = CxString::format("{\"session\":\"%s\",\"structtype\":\"%s\",\"data\":[", sSession.c_str());
                             string sOut;
                             string sOutEnd = "]}";
@@ -877,15 +877,15 @@ protected:
                                 if (sStructType.find("fs_path_info_v101") != string::npos)
                                 {
                                     sOutBegin = CxString::format(sOutBegin.c_str(), "fs_path_info_v001");
-                                    rapidjson::Value * vParams = CxJson::findMember(d, "params");
+                                    rapidjson::Value * vParams = CxRapidJson::findMember(d, "params");
                                     if (vParams && vParams->IsArray())
                                     {
                                         for (SizeType i = 0; i < vParams->Size(); ++i)
                                         {
                                             Value & vMeasure = (*vParams)[i];
                                             int iMid = 0;
-                                            string sUrlType = CxJson::findMemberToString(vMeasure, cs_urlType);
-                                            string sUrl = CxJson::findMemberToString(vMeasure, cs_url);
+                                            string sUrlType = CxRapidJson::findMemberToString(vMeasure, cs_urlType);
+                                            string sUrl = CxRapidJson::findMemberToString(vMeasure, cs_url);
                                             sOut += fn_resqFsPathInfo(sUrlType, sUrl);
                                             if (i < vParams->Size()-1)
                                                 sOut.push_back(',');
@@ -896,15 +896,15 @@ protected:
                                 else if (sStructType.find("fs_path_list_v101") != string::npos)
                                 {
                                     sOutBegin = CxString::format(sOutBegin.c_str(), "fs_path_list_v001");
-                                    rapidjson::Value * vParams = CxJson::findMember(d, "params");
+                                    rapidjson::Value * vParams = CxRapidJson::findMember(d, "params");
                                     if (vParams && vParams->IsArray())
                                     {
                                         for (SizeType i = 0; i < vParams->Size(); ++i)
                                         {
                                             Value & vMeasure = (*vParams)[i];
                                             int iMid = 0;
-                                            string sUrlType = CxJson::findMemberToString(vMeasure, cs_urlType);
-                                            string sUrl = CxJson::findMemberToString(vMeasure, cs_url);
+                                            string sUrlType = CxRapidJson::findMemberToString(vMeasure, cs_urlType);
+                                            string sUrl = CxRapidJson::findMemberToString(vMeasure, cs_url);
                                             vector<string> sPathInfos = fn_resqFsPathScan(sUrlType, sUrl, false);
                                             sOut = CxString::join(sPathInfos, ',');
                                             continue;
@@ -915,15 +915,15 @@ protected:
                                 else
                                 {
                                     sOutBegin = CxString::format(sOutBegin.c_str(), "fs_path_scan_v001");
-                                    rapidjson::Value * vParams = CxJson::findMember(d, "params");
+                                    rapidjson::Value * vParams = CxRapidJson::findMember(d, "params");
                                     if (vParams && vParams->IsArray())
                                     {
                                         for (SizeType i = 0; i < vParams->Size(); ++i)
                                         {
                                             Value & vMeasure = (*vParams)[i];
                                             int iMid = 0;
-                                            string sUrlType = CxJson::findMemberToString(vMeasure, cs_urlType);
-                                            string sUrl = CxJson::findMemberToString(vMeasure, cs_url);
+                                            string sUrlType = CxRapidJson::findMemberToString(vMeasure, cs_urlType);
+                                            string sUrl = CxRapidJson::findMemberToString(vMeasure, cs_url);
                                             vector<string> sPathInfos = fn_resqFsPathScan(sUrlType, sUrl, true);
                                             sOut = CxString::join(sPathInfos, ',');
                                             continue;
@@ -946,15 +946,15 @@ protected:
                             else if (sStructType.find("fs_file_load_v101") != string::npos)
                             {
                                 // fs_file_load_v101
-                                rapidjson::Value * vParams = CxJson::findMember(d, "params");
+                                rapidjson::Value * vParams = CxRapidJson::findMember(d, "params");
                                 if (vParams && vParams->IsArray())
                                 {
                                     for (SizeType i = 0; i < vParams->Size(); ++i)
                                     {
                                         Value & vMeasure = (*vParams)[i];
                                         int iMid = 0;
-                                        string sUrlType = CxJson::findMemberToString(vMeasure, cs_urlType);
-                                        string sUrl = CxJson::findMemberToString(vMeasure, cs_url);
+                                        string sUrlType = CxRapidJson::findMemberToString(vMeasure, cs_urlType);
+                                        string sUrl = CxRapidJson::findMemberToString(vMeasure, cs_url);
                                         string sFilePath = fn_url2path(sUrlType, sUrl);
                                         sOut = CxFile::load(sFilePath);
                                         break;

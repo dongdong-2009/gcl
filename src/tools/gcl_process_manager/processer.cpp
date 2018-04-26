@@ -107,7 +107,7 @@ void anlay(const TiXmlDocument &doc, std::vector<std::map<string, string> > &row
 */
 
 ////key=value node.name=text
-//void CxXml::loadRowByElement(const TiXmlElement *oElementLevel, std::map<std::string, std::string> & row)
+//void CxTinyXml::loadRowByElement(const TiXmlElement *oElementLevel, std::map<std::string, std::string> & row)
 //{
 //    if (oElementLevel)
 //    {

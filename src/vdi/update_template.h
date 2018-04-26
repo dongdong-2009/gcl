@@ -28,14 +28,14 @@ public:
     static void update(const std::string &sFilePath)
     {
         std::vector<std::map<std::string, std::string> > rows;
-        CxXml::loadTable4Level(sFilePath, rows, "", CT::getTableName());
+        CxTinyXml::loadTable4Level(sFilePath, rows, "", CT::getTableName());
         update(rows);
     }
 
     static void update(const char *pData, int iLength)
     {
         std::vector<std::map<std::string, std::string> > rows;
-        CxXml::loadTable4Level(pData, iLength, rows, "", CT::getTableName());
+        CxTinyXml::loadTable4Level(pData, iLength, rows, "", CT::getTableName());
         update(rows);
     }
 

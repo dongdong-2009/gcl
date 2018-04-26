@@ -119,14 +119,14 @@ void GclLua::stop()
 void GclLua::update(const string &sFilePath)
 {
     vector<map<string, string> > rows;
-    CxXml::loadTable4Level(sFilePath, rows, "", "lua");
+    CxTinyXml::loadTable4Level(sFilePath, rows, "", "lua");
     update(rows);
 }
 
 void GclLua::update(const char *pData, int iLength)
 {
     vector<map<string, string> > rows;
-    CxXml::loadTable4Level(pData, iLength, rows, "", "lua");
+    CxTinyXml::loadTable4Level(pData, iLength, rows, "", "lua");
     update(rows);
 }
 

@@ -66,9 +66,9 @@ int CicsBusiness::explain(const char *sParam, int iParamLength)
         return false;
     }
     TiXmlElement * element = root->ToElement();
-    string sType = CxXml::attribute(element, "Type");
-    string sChildName = CxXml::attribute(element, "ChildName");
-    string sChildCount = CxXml::attribute(element, "ChildCount");
+    string sType = CxTinyXml::attribute(element, "Type");
+    string sChildName = CxTinyXml::attribute(element, "ChildName");
+    string sChildCount = CxTinyXml::attribute(element, "ChildCount");
     int iChildCount = 0;
     if (sType == "Main")
     {
@@ -98,7 +98,7 @@ int CicsBusiness::explain(const char *sParam, int iParamLength)
                 if (! node2Level) break;
                 if (node2Level->ValueStr() == "MsgNo")
                 {
-                    sMsgNo = CxXml::text(node2Level);
+                    sMsgNo = CxTinyXml::text(node2Level);
                 }
             }
             if (sMsgNo.empty())
@@ -114,7 +114,7 @@ int CicsBusiness::explain(const char *sParam, int iParamLength)
                 {
                     if (! node2Level) break;
                     string sKey = node2Level->ValueStr();
-                    string sValue = CxXml::text(node2Level);
+                    string sValue = CxTinyXml::text(node2Level);
                     major[sKey] = sValue;
                 }
             }
@@ -132,7 +132,7 @@ int CicsBusiness::explain(const char *sParam, int iParamLength)
                         {
                             if (! node3Level) break;
                             string sKey3 = node3Level->ValueStr();
-                            string sValue3 = CxXml::text(node3Level);
+                            string sValue3 = CxTinyXml::text(node3Level);
                             detail[sKey3] = sValue3;
                         }
                         details[CxString::toString(iRow)] = detail;
@@ -140,7 +140,7 @@ int CicsBusiness::explain(const char *sParam, int iParamLength)
                     }
                     else
                     {
-                        string sValue2 = CxXml::text(node2Level);
+                        string sValue2 = CxTinyXml::text(node2Level);
                         major[sKey2] = sValue2;
                     }
                 }
